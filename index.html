@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Abbrevi-OUCH-tions! · NI Hospice Abbreviations Policy Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ---- Brand colours (tweak here) ---- */
+:root{
+  /* sampled from the NI Hospice logo */
+  --purple:#55214F; --purple-dark:#3A1236; --purple-mid:#7A72B3; --purple-light:#F2EFF8;
+  --lav:#7A72B3; --lav-light:#ECEAF6; --pink:#DC7282; --pink-light:#FBE9EC;
+  /* green only used for "correct" feedback */
+  --green:#7DBB4A; --green-dark:#4E8A23; --green-light:#EEF7E2;
+  --ink:#2A2233; --muted:#6B6475; --paper:#FFFDF8;
+  --red:#C8102E; --blood:#B3001B; --amber:#F2A900;
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 10%, #fff 0, transparent 40%),
+    radial-gradient(circle at 90% 80%, #E6F3D5 0, transparent 45%),
+    var(--purple-light);
+  min-height:100vh;
+}
+button{font-family:inherit;cursor:pointer}
+h1,h2,h3,.fred{font-family:Fredoka,Nunito,sans-serif}
+
+/* ---- Top bar ---- */
+.topbar{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:8px 22px;background:#fff;color:var(--purple);box-shadow:0 4px 0 var(--lav),0 7px 0 var(--pink)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand img{height:58px;width:auto;display:block}
+.wordmark{display:flex;flex-direction:column;line-height:1.02}
+.wordmark span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;font-weight:700}
+.wordmark b{font-family:Fredoka,sans-serif;font-size:24px;font-weight:600;color:#fff}
+.wordmark b::after{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin-left:4px}
+.policy-tag{font-size:13px;text-align:center;color:var(--purple)}
+.pending{display:inline-block;margin-top:3px;background:#FFF3D6;color:#8A5A00;border:1.5px solid #E8A33A;border-radius:999px;padding:1px 10px;font-size:11.5px;font-weight:800;letter-spacing:.03em}
+.pendbanner{background:#FFF3D6;border:2px solid #E8A33A;color:#7a4f00;border-radius:12px;padding:10px 14px;font-weight:700;margin:10px 0 14px}
+.policy-tag b{display:block;font-family:Fredoka,sans-serif;font-size:16px;font-weight:600}
+.top-actions{display:flex;gap:8px}
+.chip{background:var(--purple-light);border:1.5px solid var(--lav);color:var(--purple);border-radius:999px;padding:7px 14px;font-weight:700;font-size:14px}
+.chip:hover{background:var(--lav-light)}
+
+/* ---- Stage layout ---- */
+.stage{display:grid;grid-template-columns:270px minmax(0,1fr) 270px;gap:20px;max-width:1240px;margin:22px auto;padding:0 18px;align-items:start}
+.col{position:relative;display:flex;flex-direction:column;align-items:center}
+.nameplate{margin-top:-6px;background:#fff;border:2px solid var(--purple);border-radius:12px;padding:6px 14px;text-align:center;box-shadow:0 3px 0 var(--purple)}
+.nameplate b{font-family:Fredoka,sans-serif;font-size:17px;color:var(--purple)}
+.nameplate small{display:block;font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+
+/* Clare */
+.bubble{position:relative;background:#fff;border:2.5px solid var(--purple);border-radius:18px;padding:12px 14px;font-weight:700;font-size:15px;min-height:72px;width:100%;margin-bottom:14px;box-shadow:0 4px 0 rgba(91,44,131,.25)}
+.bubble::after{content:"";position:absolute;bottom:-14px;left:50%;margin-left:-12px;border:12px solid transparent;border-top-color:var(--purple);border-bottom:0}
+.bubble::before{content:"";position:absolute;bottom:-10px;left:50%;margin-left:-9px;border:9px solid transparent;border-top-color:#fff;border-bottom:0;z-index:1}
+.bubble .who{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--pink);margin-bottom:2px}
+.bubble.pop{animation:pop .35s ease}
+@keyframes pop{0%{transform:scale(.92)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+#clare{width:100%;max-width:250px;height:auto;transform-origin:50% 100%;animation:sway 4s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+
+/* Doré */
+.strikes{display:flex;align-items:center;gap:8px;background:#fff;border-radius:999px;padding:6px 14px;border:2px solid #e3d8ee;font-weight:800;font-size:14px;margin-bottom:10px}
+.pip{font-size:20px;filter:grayscale(1);opacity:.35;transition:.3s}
+.pip.hit{filter:none;opacity:1;animation:pop .4s}
+#doreStage{position:relative;width:100%;max-width:250px;margin-top:118px}
+.flyer.small{width:38px;height:48px;font-size:5.5px;padding:4px 3px}
+.flyer.small::after{top:16px;height:22px}
+.plus{position:absolute;z-index:6;pointer-events:none;font:800 13px Nunito,sans-serif;color:var(--red);transform:translate(-50%,-50%);animation:plus 1s ease-out forwards}
+@keyframes plus{to{transform:translate(-50%,-260%);opacity:0}}
+.dbubble{position:absolute;right:-6px;top:-112px;max-width:170px;background:#fff;border:2px solid var(--purple);border-radius:14px;padding:7px 10px;font-weight:800;font-size:13px;color:var(--purple);z-index:7;opacity:0;transform:scale(.7);transition:.25s;pointer-events:none}
+.dbubble.on{opacity:1;transform:scale(1)}
+.dbubble::after{content:"";position:absolute;bottom:-10px;right:40px;border:9px solid transparent;border-top-color:var(--purple);border-bottom:0}
+.attack{font-family:Fredoka,sans-serif;font-weight:700;font-size:15px;color:#fff;background:var(--purple-mid);border-radius:999px;padding:5px 14px;margin-bottom:8px;transition:.3s;visibility:hidden}
+.attack.l1{visibility:visible}
+.attack.l2{visibility:visible;background:#E8A33A;animation:pulse 1s ease-in-out infinite}
+.attack.l3{visibility:visible;background:var(--red);animation:pulse .5s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.overload{width:200px;margin-top:6px;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;text-align:center}
+.overload div{height:10px;border-radius:99px;background:#eee8f3;overflow:hidden;margin-top:3px;border:1px solid #ddd2e8}
+.overload i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lav),#E8A33A,var(--red));transition:width .5s}
+#dore .dore-body{transform:translateY(calc(var(--sink,0) * 1px));transition:transform .8s cubic-bezier(.3,1.6,.5,1)}
+#doreStage .scribble{transform-box:fill-box;transform-origin:30% 80%;animation:scribble .5s ease-in-out infinite}
+#doreStage.faint .scribble{animation:none}
+@keyframes scribble{0%,100%{transform:translate(0,0) rotate(0)}25%{transform:translate(-4px,1px) rotate(-4deg)}50%{transform:translate(2px,-1px) rotate(3deg)}75%{transform:translate(-2px,1px) rotate(-2deg)}}
+.pilesheet{animation:sheetIn .5s cubic-bezier(.3,1.5,.6,1) both}
+/* background of forms */
+#formsBg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bgform{position:absolute;background:#fff;border:1px solid #d9cfe4;border-radius:3px;box-shadow:0 2px 6px rgba(58,23,87,.10);opacity:.75;padding:6% 7%;overflow:hidden}
+.bgform::before{content:"";display:block;height:9%;min-height:4px;background:var(--hdr,#5B2C83);opacity:.55;border-radius:2px;margin-bottom:8%}
+.bgform::after{content:"";position:absolute;left:7%;right:7%;top:26%;bottom:10%;background:repeating-linear-gradient(transparent 0 calc(var(--lh,8px) - 1.5px),#d6d9e2 calc(var(--lh,8px) - 1.5px) var(--lh,8px))}
+.bgform i{position:absolute;right:9%;width:12%;aspect-ratio:1;border:1.5px solid #b9a9cc;border-radius:2px;background:#fff;z-index:1}
+.bgform b{position:absolute;left:7%;top:15%;font:800 var(--fs,8px)/1 Nunito,sans-serif;color:#5B2C83;opacity:.6;white-space:nowrap;z-index:1}
+.bgform.new{animation:bgIn .7s cubic-bezier(.3,1.4,.6,1) both}
+@keyframes bgIn{from{transform:translateY(-120vh) rotate(var(--r))}to{transform:rotate(var(--r))}}
+#dore{width:100%;height:auto;display:block;transform-origin:50% 90%;transition:transform 1s cubic-bezier(.5,-0.4,.5,1.4)}
+#doreStage.breathe #dore .breath{animation:breathe 3.2s ease-in-out infinite;transform-origin:110px 300px}
+@keyframes breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.015)}}
+#doreStage.shake{animation:shake .5s}
+@keyframes shake{0%,100%{transform:translate(0)}15%{transform:translate(-7px,2px) rotate(-2deg)}30%{transform:translate(6px,-2px) rotate(2deg)}45%{transform:translate(-5px,1px)}60%{transform:translate(4px,0)}80%{transform:translate(-2px,0)}}
+#doreStage.faint #dore{transform:rotate(-14deg) translate(-8px,10px)}
+.forms-count{margin-top:8px;font-size:13px;font-weight:700;color:var(--muted)}
+.forms-count b{color:var(--red);font-size:16px}
+
+.flyer{position:absolute;width:52px;height:66px;background:#fff;border:1.5px solid #bbb;border-radius:3px;box-shadow:2px 3px 6px rgba(0,0,0,.25);pointer-events:none;z-index:5;padding:5px 4px;font-size:6.5px;font-weight:800;color:var(--purple);line-height:1.1;overflow:hidden}
+.flyer::after{content:"";position:absolute;left:5px;right:5px;top:22px;height:30px;background:repeating-linear-gradient(#cfd4dc 0 1px,transparent 1px 6px)}
+.burst{position:absolute;z-index:6;pointer-events:none;font-family:Fredoka,sans-serif;font-weight:700;font-size:22px;color:#fff;background:var(--red);padding:5px 12px;border-radius:12px;transform:translate(-50%,-140%) rotate(-8deg);box-shadow:0 3px 0 #7a0012;white-space:nowrap;animation:burst 1.3s ease forwards}
+.burst::after{content:"";position:absolute;bottom:-9px;left:24px;border:9px solid transparent;border-top-color:var(--red);border-bottom:0}
+@keyframes burst{0%{opacity:0;transform:translate(-50%,-120%) rotate(-8deg) scale(.3)}18%{opacity:1;transform:translate(-50%,-140%) rotate(-8deg) scale(1.15)}30%{transform:translate(-50%,-140%) rotate(-8deg) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-175%) rotate(-8deg)}}
+
+/* SVG state toggles */
+svg [data-s]{display:none}
+#dore.happy [data-s~="happy"],#dore.worried [data-s~="worried"],#dore.hurt [data-s~="hurt"],#dore.ko [data-s~="ko"]{display:inline}
+#clare.smile [data-s~="smile"],#clare.wink [data-s~="wink"],#clare.oh [data-s~="oh"],#clare.stern [data-s~="stern"]{display:inline}
+
+/* Cuts & blood */
+.slash{fill:none;stroke:var(--blood);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:32;stroke-dashoffset:32;animation:dash .18s ease-out forwards}
+.drip{fill:none;stroke:var(--blood);stroke-width:3.2;stroke-linecap:round;stroke-dasharray:40;stroke-dashoffset:40;animation:dash 1.6s .25s ease-in forwards}
+@keyframes dash{to{stroke-dashoffset:0}}
+.drop{fill:#C3001F;animation:fall 1s ease-in both}
+@keyframes fall{0%{opacity:1;transform:translateY(0)}88%{opacity:1}100%{opacity:0;transform:translateY(var(--fall))}}
+.splat{fill:#B3001B;transform-box:fill-box;transform-origin:center;animation:splat .25s ease-out both}
+@keyframes splat{from{transform:scale(0)}to{transform:scale(1)}}
+.sheet{animation:sheetIn .45s cubic-bezier(.3,1.5,.6,1) both}
+@keyframes sheetIn{from{transform:translateY(-60px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* ---- Quiz card ---- */
+.card{background:var(--paper);border-radius:var(--radius);box-shadow:0 10px 30px rgba(58,23,87,.15),0 0 0 2px #e6dcef;padding:26px 28px;min-height:520px;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:linear-gradient(90deg,var(--purple),var(--lav) 60%,var(--pink))}
+.screen{display:none}
+.screen.on{display:block;animation:fadeUp .35s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.title{font-size:44px;line-height:1;margin:6px 0 4px;color:var(--purple)}
+.title em{font-style:normal;color:var(--red);display:inline-block;animation:wob 2.4s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg) scale(1.06)}}
+.sub{font-weight:700;color:var(--muted);margin:0 0 18px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.rule{background:var(--purple-light);border-radius:14px;padding:12px;font-size:14px;font-weight:600}
+.rule b{display:block;font-family:Fredoka,sans-serif;font-size:26px;color:var(--purple)}
+blockquote{margin:14px 0;padding:12px 16px;border-left:5px solid var(--lav);background:var(--lav-light);border-radius:0 12px 12px 0;font-style:italic;font-size:15px}
+blockquote cite{display:block;margin-top:6px;font-style:normal;font-size:12px;font-weight:800;color:var(--purple-mid);letter-spacing:.03em}
+.btn{border:0;border-radius:14px;padding:14px 26px;font-size:18px;font-weight:800;color:#fff;background:var(--purple);box-shadow:0 5px 0 var(--purple-dark);transition:transform .08s}
+.btn:hover{filter:brightness(1.08)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--purple-dark)}
+.btn.green{background:var(--pink);box-shadow:0 5px 0 #a84a59}
+.btn.ghost{background:#fff;color:var(--purple);box-shadow:0 0 0 2px var(--purple) inset,0 5px 0 #d9cbe6}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* question */
+.qhead{display:flex;justify-content:space-between;align-items:center;font-weight:800;color:var(--muted);font-size:14px}
+.bar{height:10px;background:#ece5f3;border-radius:99px;margin:8px 0 18px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--lav),var(--pink));border-radius:99px;transition:width .4s}
+.prompt{text-align:center;font-weight:700;color:var(--muted);margin:0}
+.abbr{font-family:Fredoka,sans-serif;font-weight:700;text-align:center;font-size:clamp(48px,9vw,86px);color:var(--purple-dark);margin:2px 0 14px;letter-spacing:.02em;word-break:break-word}
+.abbr.flip{animation:flip .4s ease}
+@keyframes flip{from{transform:rotateX(90deg);opacity:0}to{transform:none;opacity:1}}
+.choices{display:grid;gap:10px}
+.choice{display:flex;align-items:center;gap:12px;text-align:left;border:2.5px solid #ddd2e8;background:#fff;border-radius:14px;padding:13px 16px;font-size:17px;font-weight:700;color:var(--ink);transition:.15s}
+.choice:hover:not(:disabled){border-color:var(--purple);background:var(--purple-light);transform:translateX(3px)}
+.choice .k{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--purple);color:#fff;font-family:Fredoka,sans-serif}
+.choice.correct{border-color:var(--green-dark);background:var(--green-light)}
+.choice.correct .k{background:var(--green-dark)}
+.choice.wrong{border-color:var(--red);background:#FDE8EB;animation:nope .4s}
+.choice.wrong .k{background:var(--red)}
+.choice:disabled{cursor:default}
+.choice:disabled:not(.correct):not(.wrong){opacity:.55}
+@keyframes nope{0%,100%{transform:none}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fakebtn{margin-top:14px;width:100%;border:3px dashed var(--red);background:#fff;color:var(--red);border-radius:14px;padding:12px;font-family:Fredoka,sans-serif;font-size:20px;font-weight:700;letter-spacing:.04em;transition:.15s}
+.fakebtn:hover:not(:disabled){background:#FDE8EB;transform:rotate(-1deg) scale(1.01)}
+.fakebtn.correct{border-style:solid;background:var(--red);color:#fff;animation:stamp .35s}
+.fakebtn.wrong{border-style:solid;background:#FDE8EB;animation:nope .4s}
+.fakebtn:disabled:not(.correct):not(.wrong){opacity:.5;cursor:default}
+@keyframes stamp{0%{transform:scale(1.3) rotate(-6deg)}100%{transform:scale(1) rotate(-1deg)}}
+.feedback{display:none;margin-top:16px;border-radius:14px;padding:14px 16px;font-weight:600}
+.feedback.on{display:block;animation:fadeUp .3s}
+.feedback.good{background:var(--green-light);border:2px solid var(--green)}
+.feedback.bad{background:#FFF1F3;border:2px solid #f3b4bf}
+.feedback h3{margin:0 0 4px;font-size:20px}
+.feedback blockquote{background:#fff;margin:10px 0 0}
+.next{margin-top:14px;display:none}
+.next.on{display:inline-block}
+.keys{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;font-weight:700}
+.keys kbd{background:#fff;border:1px solid #ccc;border-bottom-width:2px;border-radius:4px;padding:0 5px;font-family:inherit}
+
+/* end */
+.cert{border:6px double var(--purple);border-radius:16px;padding:20px;text-align:center;background:linear-gradient(#fff,#FBF8FE);margin:10px 0 16px}
+.cert h2{margin:0;color:var(--purple);font-size:30px}
+.cert .sig{font-family:Caveat,cursive;font-size:32px;color:var(--purple-dark);margin-top:8px}
+.cert .sig small{display:block;font-family:Nunito,sans-serif;font-size:12px;font-weight:800;color:var(--muted)}
+.score{font-family:Fredoka,sans-serif;font-size:58px;color:var(--purple);line-height:1}
+.review{list-style:none;padding:0;margin:10px 0 18px;display:grid;gap:8px}
+.review li{background:#fff;border:2px solid #eee6f4;border-radius:12px;padding:10px 12px;font-size:15px}
+.review li b{color:var(--purple)}
+.review li .tag{float:right;font-size:12px;font-weight:800;color:var(--red)}
+.lose h2{color:var(--red)}
+.confetti{position:fixed;top:-20px;width:10px;height:14px;z-index:50;pointer-events:none;animation:conf 2.8s linear forwards}
+@keyframes conf{to{transform:translateY(110vh) rotate(720deg)}}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(42,20,62,.55);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:30px 14px;overflow:auto}
+.modal.on{display:flex}
+.sheetdoc{background:#fff;max-width:820px;width:100%;border-radius:16px;padding:28px 32px;box-shadow:0 20px 50px rgba(0,0,0,.3);position:relative}
+.sheetdoc h2{color:var(--purple);margin:0 0 4px}
+.sheetdoc h3{color:var(--purple);margin:22px 0 6px;font-size:18px}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:14px;background:var(--purple-light);padding:12px 16px;border-radius:12px}
+.meta dt{font-weight:800;color:var(--purple)}
+.meta dd{margin:0}
+.sheetdoc ul{padding-left:20px}
+.sheetdoc li{margin:5px 0}
+.close{position:absolute;top:14px;right:14px;border:0;background:var(--purple-light);color:var(--purple);width:36px;height:36px;border-radius:50%;font-size:20px;font-weight:800}
+.apx{columns:2;column-gap:28px;font-size:14px}
+.apx div{break-inside:avoid;padding:3px 0;border-bottom:1px dotted #e3dbe9}
+.apx b{display:inline-block;min-width:78px;color:var(--purple-dark)}
+.quoted{font-size:15px}
+.quoted p{margin:6px 0}
+.note{font-size:12px;color:var(--muted)}
+
+footer{max-width:1240px;margin:8px auto 30px;padding:0 18px;font-size:12.5px;color:var(--muted);text-align:center}
+
+/* responsive */
+@media (max-width:1000px){
+  .stage{grid-template-columns:1fr 1fr;grid-template-areas:"clare dore" "quiz quiz"}
+  .clare-col{grid-area:clare}.dore-col{grid-area:dore}.quiz-col{grid-area:quiz}
+  #clare,#doreStage{max-width:190px}
+  #doreStage{margin-top:100px}
+  .dbubble{top:-96px;font-size:11px}
+  .policy-tag{display:none}
+}
+@media (max-width:560px){
+  .title{font-size:34px}
+  .rules{grid-template-columns:1fr}
+  .card{padding:22px 16px;min-height:0}
+  .bubble{font-size:13px;min-height:0}
+  #clare,#doreStage{max-width:150px}
+  #doreStage{margin-top:84px}
+  .overload{width:140px}
+  .dbubble{max-width:130px;top:-84px}
+  .apx{columns:1}
+  .brand img{height:36px}
+  .wordmark b{font-size:19px}
+  .topbar{padding:8px 12px}
+  .chip{padding:6px 10px;font-size:13px}
+}
+</style>
+</head>
+<body>
+<div id="formsBg" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <img id="logo" src="data:image/png;base64,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" alt="Northern Ireland Hospice">
+  </div>
+  <div class="policy-tag"><b>Abbreviations in Clinical Practice</b>Clinical Policy CSP37/2026<br><span class="pending">⏳ Pending review by Clinical Leads</span></div>
+  <div class="top-actions">
+    <button class="chip" id="policyBtn">📜 The Policy</button>
+    <button class="chip" id="soundBtn" aria-label="Toggle sound">🔊</button>
+  </div>
+</header>
+
+<main class="stage">
+  <!-- Quizmaster -->
+  <aside class="col clare-col">
+    <div class="bubble" id="bubble"><span class="who">Dr Clare White says</span><span id="say">Welcome!</span></div>
+    <svg id="clare" class="smile" viewBox="0 0 220 320" role="img" aria-label="Cartoon of Dr Clare White, quizmaster">
+      <defs>
+        <pattern id="spots" width="16" height="16" patternUnits="userSpaceOnUse">
+          <rect width="16" height="16" fill="#C8102E"/>
+          <circle cx="4" cy="4" r="2.7" fill="#fff"/><circle cx="12" cy="12" r="2.7" fill="#fff"/>
+        </pattern>
+      </defs>
+      <!-- hair back -->
+      <path d="M48 122 C 36 54 84 26 112 26 C 152 26 192 60 174 126 C 190 164 184 204 164 218 L 58 218 C 36 204 32 162 48 122 Z" fill="#E6B94C"/>
+      <!-- short neck & chest -->
+      <rect x="100" y="164" width="20" height="30" rx="6" fill="#F6D2B8"/>
+      <path d="M90 190 L130 190 L136 206 L84 206 Z" fill="#F6D2B8"/>
+      <!-- arm -->
+      <path d="M172 226 C 172 246 168 258 158 268" stroke="#F6D2B8" stroke-width="13" stroke-linecap="round" fill="none"/>
+      <!-- dress -->
+      <path d="M38 320 C 38 262 48 216 72 202 C 80 196 86 196 90 198 Q 100 216 110 208 Q 120 216 130 198 C 134 196 140 196 148 202 C 172 216 182 262 182 320 Z" fill="url(#spots)"/>
+      <path d="M90 198 Q 100 216 110 208 Q 120 216 130 198" stroke="#9c0c24" stroke-width="2" fill="none"/>
+      <rect x="54" y="270" width="112" height="9" fill="#1d1d2b" rx="3"/>
+      <rect x="103" y="268" width="14" height="13" rx="3" fill="#E6B94C"/>
+      <!-- stethoscope -->
+      <path d="M98 186 Q110 176 122 186" stroke="#2f3340" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M98 186 C 84 210 86 232 98 248" stroke="#2f3340" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M122 186 C 138 208 136 228 126 240" stroke="#2f3340" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle cx="126" cy="245" r="7.5" fill="#D5D9E0" stroke="#8B919C" stroke-width="2.2"/>
+      <circle cx="98" cy="251" r="3" fill="#8B919C"/>
+      <!-- name badge -->
+      <rect x="56" y="224" width="40" height="17" rx="3" fill="#fff" stroke="#55214F" stroke-width="1.5"/>
+      <text x="76" y="235.5" text-anchor="middle" font-size="7" font-weight="800" fill="#55214F" font-family="Nunito,sans-serif">Dr C White</text>
+      <!-- cue cards + hand -->
+      <g transform="rotate(-10 166 252)">
+        <rect x="148" y="226" width="40" height="52" rx="4" fill="#fff" stroke="#c9c2d3" stroke-width="1.5"/>
+        <rect x="151" y="223" width="40" height="52" rx="4" fill="#fff" stroke="#c9c2d3" stroke-width="1.5"/>
+        <text x="171" y="246" text-anchor="middle" font-size="15" font-weight="800" fill="#55214F" font-family="Fredoka,sans-serif">Q?</text>
+        <line x1="157" y1="256" x2="185" y2="256" stroke="#DC7282" stroke-width="2"/>
+        <line x1="157" y1="263" x2="180" y2="263" stroke="#ddd" stroke-width="2"/>
+      </g>
+      <ellipse cx="158" cy="269" rx="10" ry="8" fill="#F6D2B8"/>
+      <!-- big cute head -->
+      <ellipse cx="110" cy="116" rx="52" ry="54" fill="#F6D2B8"/>
+      <!-- cheeks -->
+      <circle cx="80" cy="140" r="9" fill="#F39AA8" opacity=".5"/><circle cx="140" cy="140" r="9" fill="#F39AA8" opacity=".5"/>
+      <!-- brows (kind, soft arcs) -->
+      <g data-s="smile wink" stroke="#B88A2E" stroke-width="2.8" fill="none" stroke-linecap="round"><path d="M80 100 Q91 94 102 99"/><path d="M118 99 Q129 94 140 100"/></g>
+      <g data-s="oh" stroke="#B88A2E" stroke-width="2.8" fill="none" stroke-linecap="round"><path d="M80 96 Q91 88 102 94"/><path d="M118 94 Q129 88 140 96"/></g>
+      <g data-s="stern" stroke="#B88A2E" stroke-width="2.8" fill="none" stroke-linecap="round"><path d="M80 100 Q92 98 102 93"/><path d="M118 93 Q128 98 140 100"/></g>
+      <!-- left eye (big & sparkly) -->
+      <g data-s="smile wink oh stern">
+        <ellipse cx="91" cy="121" rx="7.5" ry="8.5" fill="#fff"/>
+        <circle cx="91.5" cy="122" r="5.6" fill="#2E86C9"/><circle cx="91.5" cy="122" r="2.8" fill="#1a1a2a"/>
+        <circle cx="93.6" cy="119.5" r="1.8" fill="#fff"/><circle cx="89.5" cy="124.5" r=".9" fill="#fff"/>
+        <path d="M83 116 Q91 110 99 115 M83 116 L79 113 M85 114 L82.5 110" stroke="#2a1a1a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- right eye -->
+      <g data-s="smile oh stern">
+        <ellipse cx="129" cy="121" rx="7.5" ry="8.5" fill="#fff"/>
+        <circle cx="128.5" cy="122" r="5.6" fill="#2E86C9"/><circle cx="128.5" cy="122" r="2.8" fill="#1a1a2a"/>
+        <circle cx="130.6" cy="119.5" r="1.8" fill="#fff"/><circle cx="126.5" cy="124.5" r=".9" fill="#fff"/>
+        <path d="M121 115 Q129 110 137 116 M137 116 L141 113 M135 114 L137.5 110" stroke="#2a1a1a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      </g>
+      <path data-s="wink" d="M121 122 Q129 115 137 122 M137 122 L141 119" stroke="#2a1a1a" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <!-- glam cat-eye glasses -->
+      <g fill="#ffffff" fill-opacity=".18" stroke="#7B1E3A" stroke-width="3" stroke-linejoin="round">
+        <path d="M76 116 Q78 108 92 108 Q105 108 106 118 Q106 132 91 133 Q77 132 76 116 Z"/>
+        <path d="M144 116 Q142 108 128 108 Q115 108 114 118 Q114 132 129 133 Q143 132 144 116 Z"/>
+      </g>
+      <path d="M76 114 L70 106 M144 114 L150 106" stroke="#7B1E3A" stroke-width="3" stroke-linecap="round"/>
+      <path d="M106 117 Q110 113 114 117" stroke="#7B1E3A" stroke-width="2.6" fill="none"/>
+      <circle cx="71" cy="107" r="1.6" fill="#F2CF6A"/><circle cx="149" cy="107" r="1.6" fill="#F2CF6A"/>
+      <!-- nose, beauty mark -->
+      <path d="M108 136 Q110 139 112 136" stroke="#D9A688" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="134" cy="148" r="1.3" fill="#5a3a2a"/>
+      <!-- mouths -->
+      <g data-s="smile wink"><path d="M98 147 Q110 161 122 147 Q110 152 98 147 Z" fill="#C8102E"/><path d="M102 150 Q110 154 118 150" stroke="#fff" stroke-width="1.5" fill="none" opacity=".8"/></g>
+      <g data-s="oh"><ellipse cx="110" cy="152" rx="5" ry="6.5" fill="#C8102E"/><ellipse cx="110" cy="153" rx="2.8" ry="4" fill="#5a0a14"/></g>
+      <path data-s="stern" d="M101 153 Q110 148 119 153" stroke="#C8102E" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+      <!-- hair front -->
+      <path d="M58 120 C 50 64 92 42 124 48 C 154 52 170 84 162 118 C 152 92 132 76 110 78 C 90 80 82 100 58 120 Z" fill="#F2CF6A"/>
+      <path d="M62 108 C 48 140 52 174 68 200 C 60 164 66 138 74 120 Z" fill="#F2CF6A"/>
+      <path d="M158 108 C 172 140 168 174 152 200 C 160 164 154 138 146 120 Z" fill="#F2CF6A"/>
+      <path d="M80 64 C 96 52 120 48 140 56" stroke="#FFF2BF" stroke-width="4" fill="none" stroke-linecap="round" opacity=".85"/>
+      <path d="M64 130 C 60 150 62 170 68 186" stroke="#FFF2BF" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".7"/>
+      <!-- bow in hair -->
+      <g transform="translate(140 62) rotate(20)"><path d="M0 0 L-12 -8 L-12 8 Z M0 0 L12 -8 L12 8 Z" fill="#C8102E"/><circle r="3.5" fill="#fff"/></g>
+      <!-- earrings -->
+      <circle cx="62" cy="142" r="4" fill="#fff" stroke="#d9c9a0" stroke-width="1"/>
+      <circle cx="158" cy="142" r="4" fill="#fff" stroke="#d9c9a0" stroke-width="1"/>
+    </svg>
+    <div class="nameplate"><b>Dr Clare White</b><small>Quizmaster</small></div>
+  </aside>
+
+  <!-- Quiz -->
+  <section class="quiz-col">
+    <div class="card">
+      <!-- START -->
+      <div class="screen on" id="sStart">
+        <h1 class="title">Abbrevi-<em>OUCH</em>-tions!</h1>
+        <p class="sub">The Northern Ireland Hospice abbreviations quiz, based on our clinical policy</p>
+        <div class="rules">
+          <div class="rule"><b>10</b>questions per test. Pick the right meaning from 3 choices.</div>
+          <div class="rule"><b>🚫</b>Some abbreviations are fakes. Hit <b style="display:inline;font-size:inherit;color:var(--red)">FAKE!</b> when you spot one.</div>
+          <div class="rule"><b>3</b>wrong and you lose. Every mistake gives Dr Matt Doré another form to fill in, plus a paper cut.</div>
+        </div>
+        <blockquote>“Only the abbreviations used in the glossary may be used in the recording of patient care. The Northern Ireland Hospice does not sanction the use of unapproved abbreviations.”
+          <cite>Northern Ireland Hospice Clinical Policy CSP37/2026, Abbreviations in Clinical Practice (pending review by Clinical Leads)</cite></blockquote>
+        <div class="pendbanner">⏳ This quiz uses the proposed 2026 revision of the policy, which is <u>pending review by Clinical Leads</u>. Until it is approved, CSP37/2023 remains the current policy.</div>
+        <div class="row">
+          <button class="btn green" id="startBtn">Start the test ▶</button>
+          <button class="btn ghost" id="policyBtn2">Read the policy first</button>
+        </div>
+      </div>
+
+      <!-- QUESTION -->
+      <div class="screen" id="sQ">
+        <div class="qhead"><span id="qnum">Question 1 of 10</span><span id="qscore">✔ 0</span></div>
+        <div class="bar"><i id="barFill" style="width:0"></i></div>
+        <p class="prompt">On NI Hospice documentation, what does this stand for?</p>
+        <div class="abbr" id="abbr">BD</div>
+        <div class="choices" id="choices"></div>
+        <button class="fakebtn" id="fakeBtn">🚫 FAKE ABBREVIATION!</button>
+        <div class="feedback" id="feedback"></div>
+        <button class="btn next" id="nextBtn">Next question →</button>
+        <div class="keys">Keys: <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> to answer · <kbd>F</kbd> for fake · <kbd>Enter</kbd> for next</div>
+      </div>
+
+      <!-- END -->
+      <div class="screen" id="sEnd"></div>
+    </div>
+  </section>
+
+  <!-- Victim -->
+  <aside class="col dore-col">
+    <div class="strikes" aria-live="polite">Paper cuts: <span class="pip">🩸</span><span class="pip">🩸</span><span class="pip">🩸</span></div>
+    <div class="attack" id="attack">📥 Forms incoming…</div>
+    <div id="doreStage" class="breathe">
+      <div class="dbubble" id="dbubble"></div>
+      <svg id="dore" class="happy" viewBox="0 0 220 320" role="img" aria-label="Cartoon of Dr Matt Doré at his desk, buried in forms" overflow="visible">
+        <clipPath id="doreClip"><rect x="-200" y="-600" width="620" height="866"/></clipPath>
+        <g clip-path="url(#doreClip)"><g class="dore-body"><g class="breath">
+          <!-- suit -->
+          <path d="M32 320 C 32 240 60 198 110 194 C 160 198 188 240 188 320 Z" fill="#24304A"/>
+          <path d="M90 194 L110 242 L130 194 Z" fill="#fff"/>
+          <rect x="99" y="170" width="22" height="26" rx="6" fill="#E9B78E"/>
+          <path d="M104 200 L116 200 L113 208 L118 234 L110 244 L102 234 L107 208 Z" fill="#55214F"/>
+          <path d="M104 220 L117 215 M103 230 L118 224" stroke="#DC7282" stroke-width="2.2"/>
+          <path d="M92 190 L110 204 L100 212 L86 196 Z" fill="#fff" stroke="#ddd"/>
+          <path d="M128 190 L110 204 L120 212 L134 196 Z" fill="#fff" stroke="#ddd"/>
+          <path d="M86 196 L110 246 L98 252 L66 212 Z" fill="#18213A"/>
+          <path d="M134 196 L110 246 L122 252 L154 212 Z" fill="#18213A"/>
+          <rect x="138" y="222" width="15" height="4" rx="1" fill="#fff" transform="rotate(-8 145 224)"/>
+          <!-- stethoscope -->
+          <path d="M93 192 Q110 182 127 192" stroke="#3B3F4A" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M93 192 C 78 218 80 240 94 252" stroke="#3B3F4A" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M127 192 C 144 216 142 236 130 246" stroke="#3B3F4A" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <circle cx="130" cy="250" r="8" fill="#C9CED6" stroke="#8B919C" stroke-width="2.2"/>
+          <!-- ears -->
+          <ellipse cx="52" cy="124" rx="10" ry="13" fill="#E9B78E"/><ellipse cx="168" cy="124" rx="10" ry="13" fill="#E9B78E"/>
+          <path d="M50 118 Q55 124 51 131" stroke="#c98d68" stroke-width="2" fill="none"/><path d="M170 118 Q165 124 169 131" stroke="#c98d68" stroke-width="2" fill="none"/>
+          <!-- big round head with brown hair -->
+          <ellipse cx="110" cy="120" rx="60" ry="58" fill="#F1C39C"/>
+          <!-- mostly bald: brown sides, a hopeful wisp on top, shiny dome -->
+          <path d="M51 132 C 46 112 50 96 60 86 C 64 98 64 112 66 132 Z" fill="#6B4226"/>
+          <path d="M169 132 C 174 112 170 96 160 86 C 156 98 156 112 154 132 Z" fill="#6B4226"/>
+          <path d="M56 104 Q 60 96 64 92" stroke="#8A5A36" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M164 104 Q 160 96 156 92" stroke="#8A5A36" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M108 63 C 104 54 110 48 116 50 C 112 53 112 58 114 62 Z" fill="#6B4226"/>
+          <path d="M112 63 C 116 55 124 54 126 58 C 121 58 118 60 116 64 Z" fill="#7D4E2E"/>
+          <ellipse cx="86" cy="80" rx="20" ry="8" fill="#fff" opacity=".55" transform="rotate(-25 86 80)"/>
+          <ellipse cx="134" cy="74" rx="6" ry="3" fill="#fff" opacity=".45" transform="rotate(20 134 74)"/>
+          <!-- cheeks -->
+          <circle cx="74" cy="148" r="10" fill="#F08F86" opacity=".38"/><circle cx="146" cy="148" r="10" fill="#F08F86" opacity=".38"/>
+          <!-- brows -->
+          <g data-s="happy" stroke="#5a4a3e" stroke-width="3.6" fill="none" stroke-linecap="round"><path d="M76 103 Q88 97 100 102"/><path d="M120 102 Q132 97 144 103"/></g>
+          <g data-s="worried ko" stroke="#5a4a3e" stroke-width="3.6" fill="none" stroke-linecap="round"><path d="M76 104 Q90 103 100 95"/><path d="M120 95 Q130 103 144 104"/></g>
+          <g data-s="hurt" stroke="#5a4a3e" stroke-width="3.6" fill="none" stroke-linecap="round"><path d="M76 98 L100 106"/><path d="M120 106 L144 98"/></g>
+          <!-- eyes -->
+          <g data-s="happy worried">
+            <ellipse cx="88" cy="125" rx="6" ry="7" fill="#2b2b33"/><ellipse cx="132" cy="125" rx="6" ry="7" fill="#2b2b33"/>
+            <circle cx="90.2" cy="122.5" r="2.2" fill="#fff"/><circle cx="134.2" cy="122.5" r="2.2" fill="#fff"/>
+            <circle cx="86.5" cy="127.5" r="1" fill="#fff"/><circle cx="130.5" cy="127.5" r="1" fill="#fff"/>
+          </g>
+          <g data-s="hurt" stroke="#2b2b33" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M81 119 L94 125 L81 131"/><path d="M139 119 L126 125 L139 131"/></g>
+          <g data-s="ko" stroke="#2b2b33" stroke-width="3.4" stroke-linecap="round"><path d="M82 119 L94 131 M94 119 L82 131"/><path d="M126 119 L138 131 M138 119 L126 131"/></g>
+          <!-- round glasses -->
+          <g fill="#ffffff" fill-opacity=".2" stroke="#3a2a20" stroke-width="3.2"><circle cx="88" cy="125" r="15"/><circle cx="132" cy="125" r="15"/></g>
+          <path d="M103 123 Q110 118 117 123" stroke="#3a2a20" stroke-width="3" fill="none"/>
+          <path d="M73 122 L58 118 M147 122 L162 118" stroke="#3a2a20" stroke-width="3" stroke-linecap="round"/>
+          <path d="M80 117 L86 113" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/><path d="M124 117 L130 113" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+          <!-- nose -->
+          <ellipse cx="110" cy="143" rx="7" ry="5" fill="#E2A982"/>
+          <!-- mouths -->
+          <path data-s="happy" d="M97 155 Q110 170 123 155 Q110 160 97 155 Z" fill="#7A2A2A"/>
+          <path data-s="worried" d="M99 161 q5 -4 8 0 t8 0 t8 0" stroke="#4A2A2A" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+          <g data-s="hurt"><rect x="97" y="153" width="26" height="14" rx="6" fill="#5A1A1A"/><rect x="99.5" y="154.5" width="21" height="4" rx="2" fill="#fff"/></g>
+          <g data-s="ko"><ellipse cx="110" cy="160" rx="7" ry="6" fill="#5A1A1A"/><path d="M107 162 Q110 172 114 163" fill="#E86C7A"/></g>
+          <path data-s="worried" d="M158 84 q7 11 0 15 q-7 -4 0 -15 Z" fill="#8FD3FF"/>
+          <g data-s="ko" fill="#F2A900" font-size="14" font-family="sans-serif"><text x="56" y="60">★</text><text x="150" y="54">★</text><text x="104" y="44">✦</text></g>
+        </g>
+        <!-- forms piling on his head -->
+        <g id="headPile"></g>
+        </g></g>
+        <!-- desk -->
+        <rect x="0" y="262" width="220" height="58" fill="#8B5A2B"/>
+        <rect x="0" y="258" width="220" height="9" rx="2" fill="#A86E37"/>
+        <rect x="60" y="284" width="100" height="22" rx="4" fill="#E9D7A8" stroke="#6b4320" stroke-width="2"/>
+        <text x="110" y="299.5" text-anchor="middle" font-size="12" font-weight="800" fill="#3A1757" font-family="Fredoka,sans-serif">Dr Matt Doré</text>
+        <!-- the form he's working on -->
+        <g transform="rotate(-6 92 256)"><rect x="66" y="246" width="52" height="14" fill="#fff" stroke="#c9c2b4" stroke-width=".8"/><path d="M70 251 h30 M70 255 h22" stroke="#ccd" stroke-width="1.4"/></g>
+        <ellipse cx="62" cy="260" rx="15" ry="8.5" fill="#F1C39C"/>
+        <g class="scribble"><line x1="108" y1="256" x2="130" y2="238" stroke="#55214F" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="114" cy="258" rx="13" ry="8" fill="#F1C39C"/></g>
+        <g id="stack"></g>
+        <g id="splats"></g>
+        <g id="cuts"></g>
+      </svg>
+    </div>
+    <div class="nameplate" style="margin-top:6px"><b>Dr Matt Doré</b><small>Under attack from forms</small></div>
+    <div class="forms-count">Forms to fill in: <b id="formCount">0</b></div>
+    <div class="overload">Paperwork overload<div><i id="overloadBar"></i></div></div>
+  </aside>
+</main>
+
+<footer>
+  All abbreviations and quoted text come from the proposed revision of <b>Northern Ireland Hospice Clinical Policy CSP37/2026, “Abbreviations in Clinical Practice”</b> (issue date November 2026, review date November 2029), <b>pending review by Clinical Leads</b>. Until it is approved, CSP37/2023 remains in force. This game is a light-hearted learning aid. The policy itself is the authoritative source. The fake abbreviations are made up and should <b>never</b> be used in patient records. No consultants were harmed in the making of this quiz (much).
+</footer>
+
+<!-- POLICY MODAL -->
+<div class="modal" id="policyModal" role="dialog" aria-modal="true" aria-labelledby="polTitle">
+  <div class="sheetdoc">
+    <button class="close" id="closePolicy" aria-label="Close">×</button>
+    <h2 id="polTitle">Northern Ireland Hospice: Clinical Policy</h2>
+    <div class="pendbanner">⏳ DRAFT: pending review by Clinical Leads. This is the proposed 2026 revision. Until it is approved, CSP37/2023 remains the current policy.</div>
+    <p class="note">The text below is quoted directly from the proposed policy document.</p>
+    <dl class="meta">
+      <dt>Title</dt><dd>Abbreviations in Clinical Practice</dd>
+      <dt>Author</dt><dd>Grace Stewart, Head of Children's Hospice Services &amp; Fiona Flynn, Deputy Head of Adult Hospice Services<br><b>Updated by:</b> Dr Matthew Doré, November 2026</dd>
+      <dt>Number</dt><dd>CSP37/2026</dd>
+      <dt>Supersedes</dt><dd>CSP37/2023</dd>
+      <dt>Issue Date</dt><dd>November 2026</dd>
+      <dt>Review Date</dt><dd>November 2029</dd>
+      <dt>Status</dt><dd><span class="pending" style="margin:0">Pending review by Clinical Leads</span></dd>
+    </dl>
+    <div class="quoted">
+      <h3>Rationale</h3>
+      <p>“There is a culture of using abbreviations in the healthcare system and it is widely recognised that the use of abbreviations should be discouraged.”</p>
+      <p>“However Northern Ireland Hospice recognises it would be challenging to change practice and therefore the risk of using abbreviations should be mitigated to the lowest level. Northern Ireland Hospice has agreed that the glossary of abbreviations attached (appendix 1) may be used.”</p>
+      <h3>Objectives</h3>
+      <p>“To provide an agreed glossary of abbreviations to reduce risk.”</p>
+      <h3>Roles and Responsibilities</h3>
+      <p>“It is the responsibility of all Northern Ireland Hospice employees to adhere to this policy.”</p>
+      <h3>Policy</h3>
+      <ul>
+        <li>“Documentation and the recording of patient information must be factual, accurate and must not contain jargon.”</li>
+        <li>“Northern Ireland Hospice discourages the use of abbreviations. However when there is already a culture of using abbreviations in the healthcare system and to manage risk, the Northern Ireland Hospice has agreed a glossary of abbreviations attached (appendix 1) may be used.”</li>
+        <li>“Only the abbreviations used in the glossary may be used in the recording of patient care. The Northern Ireland Hospice does not sanction the use of unapproved abbreviations”</li>
+        <li>“Abbreviations must not be used on consent forms except for certain exceptions as indicated in appendix 1.”</li>
+        <li>“The Chief Care Officer and the Medical Leads must agree the use of additional abbreviations and the policy should subsequently be amended and reissued.”</li>
+        <li>“Any further abbreviations relating to individual service groups should be agreed and sent to the Clinical Leads Group.”</li>
+        <li>“Medicine names should not be abbreviated.”</li>
+        <li>“Times must be recorded using the 24-hour clock (AM and PM are not approved abbreviations).”</li>
+        <li>“The word “units” must always be written in full and never abbreviated (for example to U or IU).”</li>
+      </ul>
+      <p style="text-align:right;font-weight:700">Debbie Burns<br><span class="note">Director of Care &amp; Quality Performance, November 2026</span></p>
+      <h3>Appendix 1: Abbreviation List</h3>
+      <p>“Below is a list of those abbreviations approved for use by Health Professionals employed by Northern Ireland Hospice Care. Staff may use these abbreviations on Northern Ireland Hospice documentation only. The abbreviations below should not be used on documentation, which is being forwarded to Health Professionals in other Health Organisations/Care Settings.”</p>
+      <div id="appendix"></div>
+      <p>“Fingers identified as Thumb, Index, Middle, Ring and Small. Toes identified as Big, Second, Third, Fourth and Fifth.”</p>
+      <p class="note">Entries reflect the proposed 2026 revision (pending review by Clinical Leads). The arrow and delta symbols (↑ ↓ Δ) have been restored where the document conversion lost them.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+"use strict";
+const $ = s => document.querySelector(s);
+const rnd = n => Math.random() * n | 0;
+const pick = a => a[rnd(a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ================= POLICY APPENDIX 1 (as written) ================= */
+const CATS = { M: "Medical/Nursing", N: "Hospitals/Health Organisations", H: "Health Professionals", D: "Drug Routes/Drug Times", O: "Other" };
+const POLREF = "Policy CSP37/2026 (pending review by Clinical Leads)";
+const RAW = `M|A/E|Air Entry
+M|AAA|Abdominal Aortic Aneurysm
+M|O/E|On Examination
+M|Abd|Abdomen
+M|AF|Atrial Fibrillation
+M|AIDS|Acquired Immune Deficiency Syndrome
+M|TJ|Triceps Jerks
+M|AJ|Ankle Jerks
+M|INR|International Normalised Ratio
+M|ALK.P|Alkaline Phosphatase
+M|FBC|Full Blood Count
+M|ALT|Alanine Transaminase
+M|AMI|Acute Myocardial Infarction
+M|ARF|Acute Renal Failure
+M|LFTS|Liver Function Tests
+M|AST|Aspartate Transaminase
+M|AS|Aortic Stenosis
+M|B/C|Blood Culture
+M|BCC|Basal Cell Carcinoma
+M|BMI|Body Mass Index
+M|BO|Bowels Open
+M|C. Diff|Clostridium Difficile
+M|Ca|Cancer, Carcinoma
+M|CABG|Coronary Artery Bypass Graft
+M|ESR|Erythrocyte Sedimentation Rate
+M|CAT|Computerised Axial  Tomography
+M|CBD|Common Bile Duct
+M|CCF|Congestive Cardiac Failure
+M|ECG|Electrocardiogram
+M|CHF|Congestive Heart Failure
+M|CJD|Creutzfeldt-Jakob Disease
+M|CNS|Central Nervous System
+M|SJ|Supinator Jerks
+M|CO2|Carbon Dioxide
+M|COPD|Chronic Obstructive Pulmonary Disease
+M|CRF|Chronic Renal Failure
+M|CSF|Cerebro-Spinal Fluid
+M|T|Temperature
+M|NAD|No Abnormality Detected
+M|CT|Computerised Tomography
+M|CSU|Catheter Specimen of Urine
+M|CVA|Cerebro Vascular Accident
+M|CVC|Central Venous Catheter
+M|D&V|Diarrhoea and Vomiting
+M|ECT|Electroconvulsive Therapy
+M|DOB|Date of Birth
+M|CXR|Chest X-Ray
+M|DVT|Deep Vein Thrombosis
+M|DU|Duodenal Ulcer
+M|E/ENT|Eyes/Ear, Nose & Throat
+M|EEG|Electro-Encephalogram
+M|FEV1|Forced Expiratory Volume in 1 second
+M|FOB|Faecal Occult Blood
+M|FVC|Forced Vital Capacity
+M|GA|General Anaesthetic
+M|GCS|Glasgow Coma Score/Scale
+M|GGT|Gamma Glutamyl Transpeptidase
+M|GIT|Gastro-Intestinal Tract
+M|GORD|Gastro-Oesophageal Reflux Disorder
+M|GU/T/S|Genitourinary/Tract/System
+M|GUM|Genitourinary Medicine
+M|CVS|Cardiovascular System
+M|HB|Haemoglobin
+M|H2O|Water
+M|Hep A|Hepatitis A
+M|Hep B|Hepatitis B
+M|Hep C|Hepatitis C
+M|HH|Hiatus Hernia
+M|PTTK|Kaolin Clotting Time
+M|HS|Heart Sounds
+M|HIV|Human Immunodeficiency Virus
+M|HTN|Hypertension
+M|I/O|Input/Output
+M|IBD|Inflammatory Bowel Disease
+M|IBS|Irritable Bowel Syndrome
+M|IDDM|Insulin Dependent Diabetes Mellitus
+M|IHD|Ischaemic Heart Disease
+M|IV|Intravenous Infusion
+M|IVP|Intravenous Pyelogram
+M|JVP|Jugular Venous Pressure
+M|K+|Potassium
+M|BJ|Bicep Jerks
+M|KJ|Knee Jerks
+M|LA|Local Anaesthetic
+M|LBBB|Left Bundle Branch Block
+M|LIF|Left Iliac Fossa
+M|LKKS|Liver, Kidney, Kidney, Spleen
+M|LP|Lumbar Puncture
+M|LUQ|Left Upper Quadrant
+M|LVF|Left Ventricular Failure
+M|BM|Blood Sugar Monitoring
+M|MRI|Magnetic Resonance Imaging
+M|MI|Myocardial Infarction
+M|MRSA|Methicillin-resistant Staphylococcus Aureus
+M|Wt|Weight
+M|MS|Multiple Sclerosis
+M|MSSA|Methicillin-sensitive Staphylococcus Aureus
+M|MSSU|Mid-Stream Specimen of Urine
+M|BP|Blood Pressure
+M|NJ Tube|Naso-Jejunum Tube
+M|NG Tube|Nasogastric Tube
+M|NIDDM|Non-Insulin dependent Diabetes Mellitus
+M|NIV|Non-Invasive Ventilation
+M|Na+|Sodium
+M|NKDA|No known drug allergy
+M|O2|Oxygen
+M|NPU|Not Passed Urine
+M|ERCP|Endoscopic Retrograde Cholangio Pancreatography
+M|O+S|Organism and Sensitivity
+M|OGD*|Oesophagogastroduodenoscopy
+M|OCP|Oral Contraceptive Pill
+M|PR|Per Rectum
+M|PO2|Partial Pressure of Oxygen
+M|PE|Pulmonary Embolus
+M|pCO2|Partial Pressure of Carbon Dioxide
+M|WCC|White Cell Count
+M|PCV|Packed Cell Volume
+M|PEG|Percutaneous Endoscopic Gastrostomy
+M|SOB|Shortness of Breath
+M|PET|Positron Emission Tomography
+M|PND|Paroxysmal Nocturnal Dyspnoea
+M|PFR|Peak Flow Rate
+M|S Aureus|Staphylococcus Aureus
+M|pH|The concentration of Hydrogen Ions expressed as a logarithm
+M|SCC|Spinal Cord Compression
+M|PPI|Proton Pump Inhibitor
+M|PVD|Peripheral Vascular Disease
+M|PUO|Pyrexia of Unknown Origin
+M|Resp|Respirations
+M|RA|Rheumatoid Arthritis
+M|RR|Respiratory Rate
+M|RIF|Right Iliac Fossa
+M|LS|Locomotor System
+M|RS|Respiratory System
+M|RUQ|Right Upper Quadrant
+M|Rx|Treatment
+M|SaO2|Arterial Oxygen Saturation
+M|SARS|Severe Acute Respiratory Syndrome
+M|SBO|Small Bowel Obstruction
+M|SBS|Small Bowel Series
+M|VT|Ventricular Tachycardia
+M|SVCO|Superior Vena Cava Obstruction
+M|SpO2|Peripheral Oxygen Saturation (pulse oximetry)
+M|SRC|Self Retaining Catheter
+M|SR|Sinus Rhythm
+M|TB|Tuberculosis
+M|TFT|Thyroid Function Test
+M|TKR|Total Knee Replacement
+M|SVT|Supraventricular Tachycardia
+M|TIA|Transient Ischaemic Attack
+M|THR|Total Hip Replacement
+M|TPR|Temperature, Pulse and Respirations
+M|TPN|Total Parenteral Nutrition
+M|TURP|Trans-Urethral Resection of Prostate
+M|TURB|Trans-Urethral Resection of Bladder
+M|UC|Ulcerative Colitis
+M|UTI|Urinary Tract Infection
+M|USS|Ultrasound Scan
+M|U&E|Urea & Electrolytes
+M|URTI|Upper Respiratory Tract Infection
+M|VRE|Vancomycin resistant Enterococci
+M|VF|Ventricular Fibrillation
+M|MND|Motor Neurone Disease
+M|X-Match|Cross Match
+M|P|Pulse
+M|XRT|Radiotherapy
+M|CVAD|Central Venous Access Device
+M|AKI|Acute Kidney Injury
+M|CKD|Chronic Kidney Disease
+M|CRP|C-Reactive Protein
+M|eGFR|Estimated Glomerular Filtration Rate
+M|ICD|Implantable Cardioverter Defibrillator
+M|NBM|Nil By Mouth
+M|NEWS2|National Early Warning Score 2
+M|PICC|Peripherally Inserted Central Catheter
+M|VTE|Venous Thromboembolism
+N|AAH|Antrim Area Hospital
+N|LVH|Lagan Valley Hospital
+N|RVH|Royal Victoria Hospital
+N|BCH|Belfast City Hospital
+N|MIH|Mater Infirmorum Hospital
+N|STH|South Tyrone Hospital
+N|BPH|Belvoir Park Hospital
+N|MCCB|Marie Curie Centre Belfast
+N|TCH|Tyrone County Hospital
+N|BVH|Braid Valley Hospital
+N|MPH|Musgrave Park Hospital
+N|UHD|Ulster Hospital Dundonald
+N|CAH|Craigavon Area Hospital
+N|MUH|Mid Ulster Hospital
+N|WAH|Whiteabbey Hospital
+N|FH|Foyle Hospital
+N|NIH|Northern Ireland Hospice
+N|NICH|Northern Ireland Children’s Hospice
+N|RBHSC|Royal Belfast Hospital for Sick Children
+N|SEHSCT|South Eastern Health and Social Care Trust
+N|SHSCT|Southern Health and Social Care Trust
+N|NHSCT|Northern Health and Social Care Trust
+N|WHSCT|Western Health and Social Care Trust
+N|BHSCT|Belfast Health and Social Care Trust
+N|DHH|Daisy Hill Hospital
+N|NIAS|Northern Ireland Ambulance Service
+N|HSCT|Health and Social Care Trust
+H|AHP|Allied Health Professional
+H|GP|General Practitioner
+H|HaH|Hospice at Home
+H|Con|Consultant
+H|MacM N|Macmillan Nurse
+H|SW|Social Worker
+H|DN|District Nurse
+H|OT|Occupational Therapist
+H|HV|Health Visitor
+H|Dr|Doctor
+H|SN|Staff Nurse
+H|HNS|Hospice Nurse Specialist
+H|Physio|Physiotherapist
+H|PHCT|Primary Health Care Team
+H|NIHCT|Northern Ireland Hospice Community Team
+H|SALT|Speech and Language Therapy
+H|PPC|Paediatric Palliative Care
+H|MDT|Multidisciplinary Team
+H|HCA|Healthcare Assistant
+D|OD|Once Daily
+D|PR|Per Rectum
+D|QID (QDS)|Four Times Daily
+D|BD|Twice Daily
+D|PV|Per Vagina
+D|IM|Intramuscular
+D|TID (TDS)|Three Times Daily
+D|SC|Subcutaneous
+D|IV|Intravenous
+D|SUPPS|Suppositories
+D|SL|Sublingual
+D|PO|By Mouth
+D|TOP|Topically
+D|PRN|As Required
+D|Mane|Morning
+D|Nocte|Night Time
+D|STAT|Immediate/Once only dose
+D|NSAID|Non-Steroidal Anti-Inflammatory
+D|TD|Transdermal
+D|IT|Intrathecal
+D|TENS|Transcutaneous Electrical Nerve Stimulation
+D|CSCI|Continuous Subcutaneous Infusion (syringe driver)
+O|#|Fracture
+O|=|Equals
+O|↑|Increase
+O|1/12|1 Month
+O|↓|Decrease
+O|1/52|1 Week
+O|Δ|Diagnosis
+O|1/7|1 Day
+O|<|Less Than
+O|>|Greater Than
+O|DH|Day Hospice
+O|AMA|Against Medical Advice
+O|IPU|Inpatient Unit
+O|C2H5OH|Alcohol
+O|PT|Patient
+O|CCU|Coronary Care Unit
+O|RIP|Rest in Peace
+O|COSHH|Control of Substances Hazardous to Health
+O|OPD|Outpatient Department
+O|CT Scan|Computerised Tomography
+O|RV|Review
+O|CSSD|Central Sterile Supplies Department
+O|MOP|Medical Outpatients
+O|CTA|Contrary to Advice
+O|A&E|Accident and Emergency
+O|DNACPR|Do Not Attempt Cardiopulmonary Resuscitation
+O|DNA|Did Not Attend
+O|DOA|Dead on Arrival
+O|FROM|Full range of Movement
+O|HO|History of
+O|Ht|Height
+O|ICU|Intensive Care Unit
+O|ISQ|“In Status Quo” – nothing has changed
+O|MRI Scan|Magnetic Resonance Imaging Scan
+O|O/A|On Admission
+O|O&G|Obstetric & Gynaecology
+O|OT|Occupational Therapy
+O|PM|Post Mortem
+O|RTA|Road Traffic Accident
+O|PERLA|Pupils equal and reacting to light and accommodation
+O|PET Scan|Positron Emission Tomography
+O|SSB|Supported Short Break
+O|PICU|Paediatric Intensive Care Unit
+O|EHCP|Emergency Health Care Plan
+O|ACP|Advance Care Plan
+O|TEP|Treatment Escalation Plan
+O|ED|Emergency Department
+O|NOK|Next of Kin`.split("\n").map(l => { const [c, a, m] = l.split("|"); return { c, a, m }; });
+
+/* ================= FAKE ABBREVIATIONS (completely made up!) ================= */
+const FAKES = [
+  ["BUM", ["Bilateral Upper-limb Mobility", "Bowel Usage Monitor", "Bed Utilisation Matrix"]],
+  ["BOTTOM", ["Base Of Thorax Tenderness On Movement", "Bowels Open Twice Today, Otherwise Mushy", "Bilateral Occipital Tension, Ongoing Migraine"]],
+  ["WILY", ["Wound Inspected Last Yesterday", "Weight Increasing, Long-term, Yearly", "Ward Infection Log (Yellow)"]],
+  ["PARP", ["Post-Anaesthetic Recovery Protocol", "Peripheral Arterial Reperfusion Pressure", "Patient Ambulating, Rails Provided"]],
+  ["TOOT", ["Time Out Of Theatre", "Transfer Of Oral Therapy", "Tolerating Oral Oxygen Therapy"]],
+  ["NUMPTY", ["Non-Urgent Medical Patient, Transfer Yesterday", "Neuropathic Upper-Motor Paralysis, Type Y", "Nurse Unable to Manage Paperwork Today, Yet"]],
+  ["EEJIT", ["Early Evening Joint Injection Team", "Elevated Electrolytes, Jugular Inflow Test", "End-of-life Escalation Joint Intervention Tool"]],
+  ["WEE", ["Weekly Electrolyte Estimate", "Wound Exudate Evaluation", "Ward Entry Examination"]],
+  ["BOKE", ["Bowel Obstruction, Known Emetic", "Bilateral Oedema, Knees and Elbows", "Blood Oxygen Kinetic Estimate"]],
+  ["SCUNDERED", ["Subcutaneous Nerve Damage, Excluded", "Specialist Clinic Under Nurse Direction", "Sudden Cardiac Upset, Not Determined"]],
+  ["CRAIC", ["Cardio-Respiratory Assessment In Clinic", "Chronic Renal And Intestinal Complications", "Controlled-Release Analgesia In Community"]],
+  ["GURN", ["Gastric Ulcer, Recurrent, Non-healing", "Generalised Upper-Respiratory Narrowing", "GP Urgent Referral Needed"]],
+  ["YOKE", ["Yearly Oncology Key Evaluation", "Yellowing Of Knees and Elbows", "Your Own Knowledge of Exercise"]],
+  ["SNOT", ["Sinus Node Output Test", "Supplemental Nasal Oxygen Therapy", "Staff Nurse On Training"]],
+  ["PLOP", ["Post-Lumbar Operation Protocol", "Patient Leaving Outpatients Promptly", "Peripheral Lymphatic Obstruction, Partial"]],
+  ["WOBBLY", ["Weight-Bearing On Both Legs, Yes", "Withdrawal Of Benzodiazepine, Low-dose", "Ward Observation Book, Blood pressure Log"]],
+  ["GUFF", ["Gastric Upper Fundus Fluid", "General Urinary Flow Function", "Graded Upper-limb Flexibility Factor"]],
+  ["KIP", ["Kidney Infusion Protocol", "Known Intolerance to Paracetamol", "Knee Inflammation, Persistent"]],
+  ["BAP", ["Blood Analysis Profile", "Bilateral Arterial Pulses", "Breathing Assessed Post-op"]],
+  ["NAPPY", ["Nasal Airway Patency, Paediatric", "Night-time Analgesia Provided Promptly, Yes", "Non-Acute Paediatric Pyrexia"]],
+  ["SQUIFFY", ["Subcutaneous Quick-Infusion Flow, Fixed Yield", "Squamous Infiltration, Focal", "Specialist Queue for Infusion, Fast-tracked"]],
+  ["BLARNEY", ["Blood Loss Assessment, Renal, Non-Emergency", "Bilateral Lower Arterial Reflux", "Bowel And Lower Abdominal Review, Next Evening"]],
+  ["TUMTUM", ["Total Upper-Mediastinal Tumour Ultrasound", "Twice-Usual Medication, Then Usual Medication", "Transverse Umbilical Mass, Tender Under Manipulation"]],
+  ["WIGGLE", ["Wound Inspected, Granulation Good, Low Exudate", "Weight Increase Greater than Goal Level Expected", "Wrist Inflammation, Grade Gamma, Left Elbow"]],
+  ["FIBBER", ["Fluid Intake Balance, Bed-bound, Every Round", "Femoral Interosseous Bone Biopsy, Early Results", "Fast Irregular Bradycardia, Borderline ECG Result"]],
+  ["HUNKY", ["Hepatic Ultrasound, Normal Kidney Yield", "Heart Under Normal Kinetic Yield", "Haemoglobin Usually Normal, Keep Yearly"]],
+  ["DOZY", ["Daily Oral Zinc Yield", "Dose Of Zopiclone, Yesterday", "Diuretic Output Zone, Yellow"]],
+  ["SPUD", ["Subcutaneous Pump, Unmonitored Dose", "Specialist Palliative Unit Discharge", "Sputum Production, Unusual Density"]],
+  ["CHUFFED", ["Chronic Hypoxia, Unstable, Fluids For Every Day", "Cardiac Hypertrophy, Unclear Function, Further Echo Due", "Cleared Home Until Follow-up, Family Ensure Dressings"]],
+  ["BOOGIE", ["Bowel Obstruction, Ongoing, Gastric Intubation Expected", "Bilateral Otitis, Ongoing, GP Informed Early", "Blood Oxygen On Ground-floor, Intensive Equipment"]],
+  ["TEA", ["Total Electrolyte Assay", "Transfer to Endoscopy Area", "Temperature Elevated, Afebrile"]],
+  ["BISCUIT", ["Blood Investigation Screen, Complete, Urgent, In Triage", "Bilateral Subcutaneous Infusion, Single Cannula", "Bowel Irrigation, Saline, Continuous Until Improvement"]],
+  ["HOOT", ["Head Of Oncology Team", "Hourly Oral Output Total", "Hypertension Out Of Target"]],
+  ["SMELLY", ["Sublingual Morphine, Evening, Low-dose, Last Year", "Standard Medical Escalation, Level Y", "Small Mass, Epigastric, Left Lateral, Yes"]],
+  ["DAFT", ["Daily Assessment of Fluid Tolerance", "Distal Arterial Flow Test", "Day Admission For Transfusion"]],
+  ["PANTS", ["Patient Assessed, No Treatment Sought", "Post-Admission Nursing Transfer Summary", "Peripheral Arterial Neuropathy, Thoracic Spine"]],
+  ["WAFFLE", ["Ward Admission Form, Fully Filled, Logged Electronically", "Weight And Fluid Flow, Lower Extremity", "Wound Assessed For Fibrin, Left Elbow"]],
+  ["DOOFER", ["Dose Omitted On Formulary, Escalate to Registrar", "Day Of Operation, Fasting, Early Review", "Drug Of Our Formulary, Emergency Release"]]
+].map(([a, c]) => ({ a, c }));
+
+/* ================= Build lookup / distractor logic ================= */
+const norm = s => s.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]/g, "").replace(/s$/, "");
+const STOP = new Set(["of", "and", "the", "in", "to", "a", "for", "on", "by"]);
+const words = s => new Set(s.toLowerCase().replace(/&/g, " and ").split(/[^a-z0-9]+/).filter(w => w && !STOP.has(w)).map(w => w.replace(/s$/, "")));
+function similar(a, b) {
+  if (norm(a) === norm(b)) return true;
+  const A = words(a), B = words(b); if (!A.size || !B.size) return false;
+  let n = 0; A.forEach(w => B.has(w) && n++);
+  return n / Math.min(A.size, B.size) >= 0.6;
+}
+const groups = new Map();
+RAW.forEach(r => {
+  const k = r.a.toUpperCase();
+  if (!groups.has(k)) groups.set(k, { abbr: r.a, items: [] });
+  const g = groups.get(k);
+  if (!g.items.some(i => norm(i.m) === norm(r.m))) g.items.push(r);
+});
+const NOQUIZ = new Set(["=", "<", ">"]);
+const POOL = [...groups.values()].filter(g => !NOQUIZ.has(g.abbr));
+const MEANINGS = [];
+RAW.forEach(r => { if (!MEANINGS.some(x => norm(x.m) === norm(r.m))) MEANINGS.push(r); });
+
+function distractors(g) {
+  const own = g.items.map(i => i.m);
+  const letter = (g.abbr.match(/[A-Za-z]/) || [""])[0].toUpperCase();
+  const cat = g.items[0].c;
+  const scored = MEANINGS
+    .filter(x => !own.some(o => similar(o, x.m)))
+    .map(x => ({ m: x.m, s: (x.c === cat ? 2 : 0) + (letter && x.m[0].toUpperCase() === letter ? 2.5 : 0) + Math.random() * 3 }))
+    .sort((a, b) => b.s - a.s);
+  const out = [];
+  for (const x of scored) { if (out.every(o => !similar(o, x.m))) out.push(x.m); if (out.length === 2) break; }
+  return out;
+}
+
+/* ================= Lines for our cast ================= */
+const LINES = {
+  intro: ["Welcome to my quiz! Dr Matt Doré is ready, although his handwriting definitely needs to be neater.", "Good evening and welcome! Ten questions. Three strikes. One very nervous consultant."],
+  ask: ["Next one…", "Ooh, I like this one.", "Take your time. Dr Doré is sweating, not me.", "Think of the policy.", "Is it real, or is it a fake?", "Appendix 1 is watching…", "Get this right and I'll only need one tiny form from you."],
+  last: ["One more slip and Dr Doré goes under the paperwork…", "Careful now. He can't take another form.", "Final strike territory. No pressure."],
+  correct: ["Splendid! Appendix 1 approves.", "Correct! Dr Doré lives to see another ward round.", "Lovely answer.", "Exactly right. No forms required!", "Fabulous! The policy smiles upon you.", "Marvellous. I knew you had it in you."],
+  fakeCaught: ["Well spotted! That one's not in Appendix 1.", "Caught it! We don't sanction unapproved abbreviations.", "FAKE! Nobody's writing THAT in my notes.", "Ha! Rumbled. Sharp as a scalpel, you are."],
+  wrong: ["Oh dear. It'll only take a second to do this form, Matt…", "Don't worry, it'll only take a second to do this form.", "Just a quick one, Matt. It'll only take a second to do this form.", "Tsk. It'll only take a second to do this form… and this one… and this one.", "Pass Dr Doré a plaster. It'll only take a second to do the form for that too."],
+  wrongOnFake: ["That one was made up! You needed the FAKE button. It'll only take a second to do this form.", "It's a fake. Not in the policy anywhere! Here, it'll only take a second to do this form.", "Fooled you! I invented that one over coffee."],
+  fakeOnReal: ["Oh no, that's a real one! It's right there in Appendix 1.", "Fake? That's approved! It's in the policy. It'll only take a second to do this form."],
+  win: ["Bravo! Certified Abbreviation-Aware. Dr Doré survives… mostly.", "Fabulous work! Dr Doré owes you a plaster-free lunch."],
+  lose: ["Dr Doré has been papered to death. Somebody fetch a Datix. It'll only take a second to do this form.", "Three strikes. Dr Doré is down. Matt, when you wake up, it'll only take a second to do this form."]
+};
+const FORMS = ["IR1 Incident Report", "Datix Form", "Reflective Practice Log", "Abbreviation Variance Form", "Form 27B/6", "Duty of Candour Letter", "Audit Return", "Policy Re-read Declaration", "Appraisal Evidence Sheet", "Clinical Leads Group Memo"];
+const OUCH = ["OUCH!", "YEOWCH!", "PAPER CUT!", "ARGH!", "NOT ANOTHER FORM!", "MY FINGERS!"];
+const SPOTS = [
+  { x: 92, y: 106, r: -20 },  // brow
+  { x: 150, y: 146, r: 18 },  // cheek
+  { x: 62, y: 256, r: -8 },   // left hand
+  { x: 168, y: 120, r: 70 },  // ear
+  { x: 116, y: 254, r: 12 },  // writing hand
+  { x: 126, y: 104, r: 30 }   // forehead
+];
+
+/* ================= Sound (tiny Web Audio blips) ================= */
+let AC = null, soundOn = true;
+const ac = () => (AC ||= new (window.AudioContext || window.webkitAudioContext)());
+function tone(f, d, type = "sine", v = .12, delay = 0, slide) {
+  if (!soundOn) return; try {
+    const c = ac(), t = c.currentTime + delay, o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t); if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + d);
+    g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+    o.connect(g).connect(c.destination); o.start(t); o.stop(t + d + .02);
+  } catch (e) {}
+}
+function swish(vol = .25) {
+  if (!soundOn) return; try {
+    const c = ac(), len = c.sampleRate * .35, b = c.createBuffer(1, len, c.sampleRate), d = b.getChannelData(0);
+    for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+    const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+    s.buffer = b; f.type = "bandpass"; f.frequency.setValueAtTime(800, c.currentTime); f.frequency.exponentialRampToValueAtTime(5000, c.currentTime + .3);
+    g.gain.value = vol; s.connect(f).connect(g).connect(c.destination); s.start();
+  } catch (e) {}
+}
+/* ---------- Piano: a simple synthesised grand piano with a concert-hall reverb ---------- */
+const Piano = (() => {
+  let wave = null, verb = null, comp = null, sfx = null;
+  const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+  function init() {
+    if (wave) return; const c = ac();
+    const n = 14, re = new Float32Array(n), im = new Float32Array(n);
+    [0, 1, .62, .36, .26, .17, .12, .08, .06, .045, .03, .022, .015, .01].forEach((a, i) => im[i] = a);
+    wave = c.createPeriodicWave(re, im);
+    comp = c.createDynamicsCompressor(); comp.threshold.value = -20; comp.ratio.value = 6; comp.connect(c.destination);
+    const len = c.sampleRate * 2.6, b = c.createBuffer(2, len, c.sampleRate);
+    for (let ch = 0; ch < 2; ch++) { const d = b.getChannelData(ch); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.2); }
+    verb = c.createConvolver(); verb.buffer = b; const wet = c.createGain(); wet.gain.value = .32; verb.connect(wet).connect(comp);
+  }
+  function bus(level = 1) { init(); const g = ac().createGain(); g.gain.value = level; g.connect(comp); g.connect(verb); return g; }
+  function play(m, t, v, len, dest) {
+    init(); const c = ac(), f = mtof(m);
+    const o1 = c.createOscillator(), o2 = c.createOscillator(), lp = c.createBiquadFilter(), g = c.createGain();
+    o1.setPeriodicWave(wave); o2.setPeriodicWave(wave); o1.frequency.value = f; o2.frequency.value = f * 1.0018;
+    lp.type = "lowpass"; lp.Q.value = .3;
+    lp.frequency.setValueAtTime(Math.min(12000, f * 7 + 2500 * v * 4), t);
+    lp.frequency.exponentialRampToValueAtTime(Math.max(250, f * 1.6), t + 1.4);
+    const natural = Math.max(.7, 4 - (m - 33) * .055);          // low notes ring longer
+    const end = t + Math.max(.2, Math.min(len, natural));
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(v, t + .005);           // hammer strike
+    g.gain.exponentialRampToValueAtTime(v * .4, t + .18);       // quick initial decay
+    g.gain.exponentialRampToValueAtTime(v * .18, Math.max(t + .19, end - .05));
+    g.gain.exponentialRampToValueAtTime(.0001, end + .3);       // damper
+    o1.connect(lp); o2.connect(lp); lp.connect(g); g.connect(dest || (sfx ||= bus(1)));
+    o1.start(t); o2.start(t); o1.stop(end + .35); o2.stop(end + .35);
+  }
+  return { play, bus, sfx: (m, d = 0, v = .2, len = .8) => { if (!soundOn) return; try { play(m, ac().currentTime + d, v, len); } catch (e) {} } };
+})();
+
+/* Classical-style piano: a calm C-major Andante at Q1, growing into a stormy A-minor Presto by Q10 */
+const Music = (() => {
+  let timer = null, step = 0, next = 0, bar = 0, stress = 0, out = null, mel = 76;
+  const MAJ = [0, 2, 4, 5, 7, 9, 11], HMIN = [9, 11, 0, 2, 4, 5, 8];
+  const PROG = {
+    calm:  [[48, 52, 55], [45, 48, 52], [41, 45, 48], [43, 47, 50, 53]],       // C  Am  F   G7
+    flow:  [[48, 52, 55], [45, 48, 52], [50, 53, 57], [43, 47, 50, 53]],       // C  Am  Dm  G7
+    storm: [[45, 48, 52], [41, 45, 48], [38, 41, 45], [40, 44, 47, 50]],       // Am F   Dm  E7
+    panic: [[45, 48, 52], [46, 50, 53], [38, 41, 45], [44, 47, 50, 53]]        // Am Bb  Dm  G#dim7
+  };
+  function melody(ch, strong, scale, lo, hi) {
+    const pcs = ch.map(n => n % 12);
+    if (strong) {
+      const c = []; for (let m = lo; m <= hi; m++) if (pcs.includes(m % 12)) c.push(m);
+      c.sort((a, b) => Math.abs(a - mel) - Math.abs(b - mel));
+      mel = c[Math.random() < .55 ? 0 : Math.min(c.length - 1, 1 + rnd(2))];
+    } else {
+      const dir = mel > hi - 3 ? -1 : mel < lo + 3 ? 1 : (Math.random() < .5 ? -1 : 1);
+      let m = mel + dir; while (!scale.includes(((m % 12) + 12) % 12)) m += dir; mel = m;
+    }
+    return mel;
+  }
+  function schedule() {
+    const c = ac(), P = (m, t, v, len) => Piano.play(m, t, v, len, out);
+    while (next < c.currentTime + .25) {
+      const s = stress, k = step % 16;
+      const mode = s < .3 ? "calm" : s < .6 ? "flow" : s < .85 ? "storm" : "panic";
+      const bpm = mode === "calm" ? 72 + 30 * s : mode === "flow" ? 84 + 40 * s : 118 + 50 * s;
+      const sd = 60 / bpm / 4, ch = PROG[mode][bar % 4], minor = mode === "storm" || mode === "panic";
+      const scale = minor ? HMIN : MAJ, vol = .55 + .25 * s;
+      // ---- left hand ----
+      if (!minor) { // Alberti bass in eighths, with a deep root at the start of each bar
+        if (k % 2 === 0) { const pat = [0, 2, 1, 2][(k / 2) % 4]; P(ch[pat] + (ch[pat] < 47 ? 12 : 0), next, .085 * vol, sd * 4); }
+        if (k === 0) P(ch[0] - 12, next, .12 * vol, sd * 16);
+        if (mode === "flow" && k === 8) P(ch[0] - 12, next, .1 * vol, sd * 8);
+      } else {      // rushing broken-chord sixteenths, with pounding octaves when it's really bad
+        const up = [ch[0], ch[1], ch[2], ch[0] + 12, ch[1] + 12, ch[2] + 12, ch[0] + 12, ch[2]];
+        P(up[k % 8], next, (.07 + (k % 4 === 0 ? .03 : 0)) * vol, sd * 2);
+        if (k % 8 === 0) { P(ch[0] - 12, next, .14 * vol, sd * 8); P(ch[0] - 24, next, .1 * vol, sd * 8); }
+        if (mode === "panic" && k % 4 === 2) P(ch[0] - 12, next, .1 * vol, sd * 2);
+      }
+      // ---- right hand ----
+      const every = mode === "calm" ? 4 : mode === "flow" ? 2 : mode === "storm" ? 2 : 1;
+      const strong = k % 8 === 0;
+      let play = k % every === 0;
+      if (mode === "calm" && k % 8 === 4) play = Math.random() < .6;
+      if (mode === "flow" && k % 4 === 2) play = Math.random() < .55;
+      if (bar % 4 === 3 && !minor && k > 8) play = false;          // let phrases breathe
+      if (play) {
+        const m = melody(ch, strong || k % 4 === 0, scale, minor ? 69 : 67, minor ? 91 : 84);
+        const len = mode === "calm" ? sd * (bar % 4 === 3 && k === 8 ? 8 : 4) : sd * every * 1.3;
+        P(m, next, (.17 + (strong ? .05 : 0)) * vol, len);
+        if (minor && strong) P(m - 12, next, .1 * vol, len);           // octave doubling for drama
+      }
+      next += sd; step++; if (step % 16 === 0) bar++;
+    }
+  }
+  return {
+    start() {
+      if (!soundOn || timer) return;
+      try {
+        const c = ac(); if (c.state === "suspended") c.resume();
+        if (!out) out = Piano.bus(.0001);
+        next = c.currentTime + .15; step = 0; bar = 0; mel = 76;
+        out.gain.cancelScheduledValues(c.currentTime); out.gain.setTargetAtTime(.8, c.currentTime, .4);
+        timer = setInterval(schedule, 50);
+      } catch (e) {}
+    },
+    stop(fade = 1) {
+      if (!timer) return; clearInterval(timer); timer = null;
+      try { const c = ac(); out.gain.cancelScheduledValues(c.currentTime); out.gain.setTargetAtTime(.0001, c.currentTime, fade / 3); } catch (e) {}
+    },
+    set(v) { stress = Math.max(0, Math.min(1, v)); }
+  };
+})();
+const sndGood = () => { Piano.sfx(84, 0, .16, .5); Piano.sfx(88, .09, .16, .5); Piano.sfx(91, .18, .18, .9); };
+const sndOuch = () => { tone(420, .35, "sawtooth", .08, 0, 140); Piano.sfx(37, 0, .25, .6); Piano.sfx(38, 0, .25, .6); };
+const sndLose = () => { [76, 72, 69, 68].forEach((m, i) => Piano.sfx(m, i * .38, .2, .7)); [33, 45, 48, 52].forEach(m => Piano.sfx(m, 1.6, .2, 3)); };
+const sndWin = () => { [60, 64, 67, 72, 76, 79].forEach((m, i) => Piano.sfx(m, i * .11, .17, 1.2)); [48, 60, 64, 67, 72, 84].forEach(m => Piano.sfx(m, .8, .16, 3)); };
+
+/* ================= Characters ================= */
+const clare = $("#clare"), dore = $("#dore"), stage = $("#doreStage");
+const setClare = s => clare.setAttribute("class", s);
+const setDore = s => dore.setAttribute("class", s);
+function say(text) {
+  $("#say").textContent = text;
+  const b = $("#bubble"); b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");
+}
+const NS = "http://www.w3.org/2000/svg";
+let formTotal = 0, sheetN = 0;
+function addForms(n) {
+  const cols = ["#ffffff", "#FFF6C9", "#FCE1E6", "#E5F1FF", "#ffffff"];
+  for (let i = 0; i < n; i++) {
+    const r = document.createElementNS(NS, "rect");
+    const y = 258 - sheetN * 4.6;
+    r.setAttribute("x", 150 + (rnd(9) - 4)); r.setAttribute("y", y);
+    r.setAttribute("width", 58); r.setAttribute("height", 4.6); r.setAttribute("rx", 1);
+    r.setAttribute("fill", pick(cols)); r.setAttribute("stroke", "#b9b2a4"); r.setAttribute("stroke-width", ".6");
+    r.setAttribute("class", "sheet"); r.style.animationDelay = (i * .08) + "s";
+    $("#stack").appendChild(r); sheetN++;
+  }
+  formTotal += n; $("#formCount").textContent = formTotal;
+}
+/* forms piling on Dr Doré's head: big sheets, some poking out so you can see they're forms */
+const pile = []; const PILE_BASE = 60;
+const pileTh = () => Math.min(8, 110 / Math.max(1, pile.length));
+const sinkNow = () => Math.min(30, pile.length * 1.3);
+function updateSink() {
+  dore.style.setProperty("--sink", sinkNow());
+  $("#overloadBar").style.width = Math.min(100, formTotal * 3.2) + "%";
+}
+function layoutPile() {
+  const th = pileTh();
+  pile.forEach((p, i) => {
+    p.g.setAttribute("transform", `translate(${110 + p.dx} ${PILE_BASE - (i + 1) * th}) rotate(${p.rot})`);
+    p.r.setAttribute("height", th); p.r.setAttribute("y", 0);
+  });
+}
+function pileTopPct() { // where the top of the pile is, as % of the stage
+  const y = PILE_BASE - pile.length * pileTh() + sinkNow();
+  return { x: 50, y: y / 320 * 100 };
+}
+let pileN = 0;
+function addHeadForms(n) {
+  const cols = ["#ffffff", "#FFF6C9", "#FCE1E6", "#E8E6F6", "#E5F1FF"];
+  for (let i = 0; i < n; i++) {
+    const w = 78 + rnd(30), idx = pile.length;
+    const g = document.createElementNS(NS, "g");
+    const inner = document.createElementNS(NS, "g"); inner.setAttribute("class", "pilesheet");
+    let pokeSvg = "";
+    if (idx % 3 === 1) { // a full form sticking out of the pile
+      const side = idx % 2 ? 1 : -1, tilt = side * (14 + rnd(14));
+      pokeSvg = `<g transform="translate(${side * (w / 2 - 10)} 2) rotate(${tilt})">
+        <rect x="-17" y="-40" width="34" height="44" rx="1.5" fill="#fff" stroke="#a99fb8" stroke-width=".8"/>
+        <rect x="-14" y="-37" width="28" height="5" fill="${pick(["#55214F", "#7A72B3", "#DC7282"])}" opacity=".7"/>
+        <path d="M-13 -27 h22 M-13 -22 h26 M-13 -17 h18 M-13 -12 h24" stroke="#c7c9d6" stroke-width="1.4"/>
+        <rect x="7" y="-10" width="5" height="5" fill="none" stroke="#a99fb8" stroke-width=".8"/>
+        <text x="-13" y="-30" font-size="4.6" font-weight="800" fill="#55214F" font-family="Nunito,sans-serif">${pick(BG_TITLES).slice(0, 10)}</text></g>`;
+    }
+    inner.innerHTML = pokeSvg + `<rect x="${-w / 2}" y="0" width="${w}" height="8" rx="1" fill="${pick(cols)}" stroke="#a99f90" stroke-width=".7"/>`;
+    g.appendChild(inner);
+    const r = inner.lastElementChild;
+    $("#headPile").appendChild(g);
+    pile.push({ g, r, dx: rnd(15) - 7, rot: (Math.random() * 7 - 3.5).toFixed(1) });
+    pileN++;
+  }
+  layoutPile();
+  formTotal += n; $("#formCount").textContent = formTotal; updateSink();
+}
+function completeForm() { // he finishes one: it flies off with a tick
+  if (!pile.length || formTotal <= 0) return;
+  const top = pile.pop();
+  top.g.animate([{ opacity: 1, translate: "0 0" }, { opacity: 0, translate: "-110px -50px", rotate: "-40deg" }], { duration: 700, easing: "ease-in" }).onfinish = () => top.g.remove();
+  pileN = Math.max(0, pileN - 1); formTotal--; $("#formCount").textContent = formTotal; layoutPile(); updateSink();
+  const t = document.createElement("div"); t.className = "burst"; t.style.background = "var(--green-dark)"; t.style.boxShadow = "0 3px 0 #2f5a12";
+  t.textContent = "✓ Form done!"; t.style.left = "45%"; t.style.top = Math.max(-20, pileTopPct().y) + "%";
+  stage.appendChild(t); setTimeout(() => t.remove(), 1400);
+}
+/* forms fly in from all sides and land on the pile */
+function sendForm(delay = 0) {
+  setTimeout(() => {
+    if (!S || S.done) return;
+    const f = document.createElement("div"); f.className = "flyer small";
+    f.textContent = pick(FORMS).toUpperCase(); stage.appendChild(f);
+    const from = pick([["-60%", "-40%"], ["130%", "-30%"], ["120%", "30%"], ["50%", "-90%"], ["-40%", "20%"]]);
+    const tgt = pileTopPct();
+    swish(.12);
+    f.animate([
+      { left: from[0], top: from[1], transform: "translate(-50%,-50%) rotate(0deg)" },
+      { left: (tgt.x + rnd(14) - 7) + "%", top: tgt.y + "%", transform: `translate(-50%,-50%) rotate(${pick([540, 720, -540])}deg) scale(.8)` }
+    ], { duration: 650 + rnd(250), easing: "cubic-bezier(.4,0,.8,.6)" }).onfinish = () => {
+      f.remove(); if (!S || S.done) return;
+      addHeadForms(1); tone(180, .08, "square", .04);
+      const pl = document.createElement("div"); pl.className = "plus"; pl.textContent = "+1 form";
+      pl.style.left = (55 + rnd(20)) + "%"; pl.style.top = pileTopPct().y + "%";
+      stage.appendChild(pl); setTimeout(() => pl.remove(), 1000);
+    };
+  }, delay);
+}
+let attackTimer = null;
+function stressLevel() { return S ? Math.min(1, (S.i / (TOTAL - 1)) * .85 + S.wrong * .12) : 0; }
+function attackLoop() {
+  clearTimeout(attackTimer);
+  if (!S || S.done) return;
+  const st = stressLevel();
+  sendForm(0);
+  if (Math.random() < .3) doreSay(pick(DORE_LINES));
+  attackTimer = setTimeout(attackLoop, 7000 - 4800 * st + rnd(1500));
+}
+function updateAttackBanner() {
+  const st = stressLevel(), el = $("#attack");
+  el.className = "attack " + (st > .7 ? "l3" : st > .4 ? "l2" : "l1");
+  el.textContent = st > .7 ? "🚨 FORM OVERLOAD! 🚨" : st > .4 ? "⚠️ FORM ATTACK!" : "📥 Forms incoming…";
+}
+const DORE_LINES = ["So… many… forms…", "I'm still on Tuesday's IR1!", "Is there a form for having too many forms?", "Please, no more Datix!", "I just wanted to see patients…", "Who keeps sending these?!", "My in-tray has an in-tray.", "Pen… running… out…"];
+let dbT = null;
+function doreSay(t) {
+  const b = $("#dbubble"); b.textContent = t; b.classList.add("on");
+  clearTimeout(dbT); dbT = setTimeout(() => b.classList.remove("on"), 2600);
+}
+const BG_TITLES = ["IR1", "DATIX", "FORM 27B/6", "AUDIT", "REFLECTION", "CONSENT", "RISK ASSESSMENT", "CARE PLAN", "HANDOVER", "MEDS CHART", "ABBREV. VARIANCE", "EHCP", "TEP", "FLUID BALANCE", "APPRAISAL", "TRAINING LOG"];
+function addBgForms(n, animate) {
+  const box = $("#formsBg"), hdrs = ["#55214F", "#7A72B3", "#DC7282", "#7A72B3", "#55214F"];
+  for (let i = 0; i < n; i++) {
+    const f = document.createElement("div"); f.className = "bgform" + (animate ? " new" : "");
+    const w = 40 + Math.pow(Math.random(), 1.6) * 200; // lots of small, some big
+    const rot = (Math.random() * 40 - 20).toFixed(1);
+    f.style.cssText = `width:${w}px;height:${w * 1.35}px;left:${Math.random() * 104 - 6}vw;top:${Math.random() * 104 - 6}vh;--r:${rot}deg;transform:rotate(${rot}deg);--hdr:${pick(hdrs)};--lh:${Math.max(5, w / 16)}px;--fs:${Math.max(5, w / 14)}px;animation-delay:${animate ? i * .12 : 0}s`;
+    f.innerHTML = `<b>${pick(BG_TITLES)}</b>` + (w > 90 ? `<i style="top:40%"></i><i style="top:58%"></i>` : "");
+    box.appendChild(f);
+  }
+}
+function addCut(sp) {
+  const g = document.createElementNS(NS, "g");
+  g.setAttribute("transform", `translate(${sp.x} ${sp.y})`);
+  const fall = Math.max(30, 262 - sp.y);
+  const drops = [0, 1, 2, 3].map(i => `<circle class="drop" cx="${(rnd(9) - 4)}" cy="3" r="${2 + Math.random() * 1.4}" style="--fall:${fall}px;animation-delay:${.2 + i * .28}s;animation-duration:${.7 + fall / 300}s"/>`).join("");
+  g.innerHTML = `<g transform="rotate(${sp.r})"><path class="slash" d="M-12 -1 L-5 2 L1 -1.5 L7 1.5 L12 -0.5"/></g>
+    <path class="drip" d="M0 1 q 1.6 6 0 ${10 + rnd(6)}"/>
+    <path class="drip" style="animation-delay:.6s" d="M-6 0 q -1.4 4 0 ${6 + rnd(4)}"/>${drops}`;
+  $("#cuts").appendChild(g);
+  setTimeout(() => { // puddle on the desk
+    const e = document.createElementNS(NS, "ellipse");
+    e.setAttribute("cx", Math.min(205, Math.max(15, sp.x + rnd(14) - 7))); e.setAttribute("cy", 265 + rnd(4));
+    e.setAttribute("rx", 4 + rnd(3)); e.setAttribute("ry", 1.8); e.setAttribute("class", "splat");
+    $("#splats").appendChild(e);
+  }, 900 + fall * 2.5);
+}
+function burst(sp) {
+  const b = document.createElement("div"); b.className = "burst"; b.textContent = pick(OUCH);
+  b.style.left = Math.min(70, Math.max(30, sp.x / 220 * 100)) + "%"; b.style.top = (sp.y / 320 * 100) + "%";
+  stage.appendChild(b); setTimeout(() => b.remove(), 1400);
+}
+function hurtDore(n) {
+  const sp = S.spots[n - 1];
+  setDore("worried");
+  const f = document.createElement("div"); f.className = "flyer";
+  f.textContent = FORMS[(formTotal / 4 | 0) % FORMS.length].toUpperCase();
+  stage.appendChild(f);
+  swish();
+  const anim = f.animate([
+    { left: "115%", top: "-5%", transform: "translate(-50%,-50%) rotate(0deg) scale(1.2)" },
+    { left: (sp.x / 220 * 100) + "%", top: (sp.y / 320 * 100) + "%", transform: "translate(-50%,-50%) rotate(760deg) scale(.7)" }
+  ], { duration: 620, easing: "cubic-bezier(.45,0,.9,.55)" });
+  anim.onfinish = () => {
+    f.remove();
+    setDore("hurt"); sndOuch();
+    stage.classList.remove("shake"); void stage.offsetWidth; stage.classList.add("shake");
+    addCut(sp); burst(sp); addForms(4); addHeadForms(2); addBgForms(6, true); for (let j = 0; j < 2; j++) sendForm(500 + j * 300);
+    Music.set(stressLevel()); updateAttackBanner();
+    if (n < 3) setTimeout(() => doreSay(pick(["Ow! Another one?!", "That one had a staple!", "Paper cut! I'll need a form for that…"])), 900);
+    setTimeout(() => {
+      if (n >= 3) { setDore("ko"); stage.classList.add("faint"); stage.classList.remove("breathe"); }
+      else setDore("worried");
+    }, 1500);
+  };
+}
+function resetDore() {
+  ["#cuts", "#stack", "#splats"].forEach(s => $(s).innerHTML = "");
+  stage.querySelectorAll(".flyer,.burst").forEach(e => e.remove());
+  stage.className = "breathe"; setDore("happy");
+  formTotal = 0; sheetN = 0; pileN = 0; pile.length = 0; $("#headPile").innerHTML = "";
+  $("#attack").className = "attack"; $("#dbubble").classList.remove("on"); updateSink(); $("#formCount").textContent = 0;
+  document.querySelectorAll(".bgform.new").forEach(e => e.remove());
+  document.querySelectorAll(".pip").forEach(p => p.classList.remove("hit"));
+}
+
+/* ================= Game ================= */
+const TOTAL = 10;
+let S = null, fakeDeck = [];
+function nextFakes(n) {
+  const out = [];
+  while (out.length < n) { if (!fakeDeck.length) fakeDeck = shuffle(FAKES); out.push(fakeDeck.pop()); }
+  return out;
+}
+function buildRound() {
+  const nF = 2 + rnd(2); // 2–3 fakes per test
+  const reals = shuffle(POOL).slice(0, TOTAL - nF).map(g => {
+    const it = pick(g.items);
+    return { fake: false, abbr: g.abbr, correct: it.m, cat: it.c, group: g, choices: shuffle([it.m, ...distractors(g)]) };
+  });
+  const fakes = nextFakes(nF).map(f => ({ fake: true, abbr: f.a, choices: shuffle(f.c) }));
+  return shuffle([...reals, ...fakes]);
+}
+function show(id) { document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id)); }
+
+function start() {
+  resetDore();
+  S = { qs: buildRound(), i: 0, wrong: 0, score: 0, answered: false, log: [], spots: shuffle(SPOTS) };
+  show("sQ"); Music.set(0); Music.start(); showQ();
+}
+function showQ() {
+  const q = S.qs[S.i]; S.answered = false;
+  $("#qnum").textContent = `Question ${S.i + 1} of ${TOTAL}`;
+  $("#qscore").textContent = `✔ ${S.score}   ✘ ${S.wrong}/3`;
+  $("#barFill").style.width = (S.i / TOTAL * 100) + "%";
+  const a = $("#abbr"); a.textContent = q.abbr; a.classList.remove("flip"); void a.offsetWidth; a.classList.add("flip");
+  $("#choices").innerHTML = q.choices.map((c, i) => `<button class="choice" data-v="${esc(c)}"><span class="k">${i + 1}</span><span>${esc(c)}</span></button>`).join("");
+  const fb = $("#fakeBtn"); fb.disabled = false; fb.className = "fakebtn";
+  $("#feedback").className = "feedback"; $("#nextBtn").classList.remove("on");
+  setClare("smile");
+  const k = S.i === 0 ? 1 : 2 + (S.i > 5 ? 1 : 0);
+  for (let j = 0; j < k; j++) sendForm(200 + j * 350);
+  Music.set(stressLevel()); updateAttackBanner();
+  if (S.i === 0) attackTimer = setTimeout(attackLoop, 5000);
+  say(S.i === 0 ? pick(LINES.intro) : S.wrong === 2 ? pick(LINES.last) : pick(LINES.ask));
+  if (S.wrong < 2 && !dore.classList.contains("hurt")) setDore(S.wrong ? "worried" : "happy");
+}
+function quoteFor(q) {
+  const items = q.group.items;
+  return items.map(it => `<blockquote>“${esc(q.abbr)}: ${esc(it.m)}”<cite>Appendix 1 · ${CATS[it.c]} · ${POLREF}</cite></blockquote>`).join("");
+}
+function answer(kind, value) {
+  if (!S || S.answered) return; S.answered = true;
+  const q = S.qs[S.i];
+  const ok = kind === "fake" ? q.fake : (!q.fake && value === q.correct);
+  document.querySelectorAll(".choice").forEach(b => {
+    b.disabled = true;
+    if (!q.fake && b.dataset.v === q.correct) b.classList.add("correct");
+    if (kind === "choice" && b.dataset.v === value && !ok) b.classList.add("wrong");
+  });
+  const fb = $("#fakeBtn"); fb.disabled = true;
+  if (q.fake) fb.classList.add("correct"); else if (kind === "fake") fb.classList.add("wrong");
+  S.log.push({ q, ok, picked: kind === "fake" ? "FAKE" : value });
+
+  const f = $("#feedback");
+  let html;
+  if (q.fake) {
+    html = ok
+      ? `<h3>🎯 Fake spotted!</h3><b>${esc(q.abbr)}</b> isn't in Appendix 1. We made it up.`
+      : `<h3>🙈 That was a fake!</h3><b>${esc(q.abbr)}</b> isn't in the policy at all. All three meanings were invented.`;
+    html += `<blockquote>“Only the abbreviations used in the glossary may be used in the recording of patient care. The Northern Ireland Hospice does not sanction the use of unapproved abbreviations”<cite>${POLREF}</cite></blockquote>`;
+  } else {
+    html = ok
+      ? `<h3>✅ Correct!</h3><b>${esc(q.abbr)}</b> = <b>${esc(q.correct)}</b>`
+      : `<h3>❌ ${kind === "fake" ? "It's real!" : "Not quite!"}</h3><b>${esc(q.abbr)}</b> = <b>${esc(q.correct)}</b>`;
+    html += quoteFor(q);
+  }
+  f.innerHTML = html; f.className = "feedback on " + (ok ? "good" : "bad");
+
+  if (ok) {
+    S.score++; sndGood(); setTimeout(completeForm, 300);
+    setClare(q.fake || Math.random() < .4 ? "wink" : "smile");
+    say(pick(q.fake ? LINES.fakeCaught : LINES.correct));
+  } else {
+    S.wrong++;
+    document.querySelectorAll(".pip")[S.wrong - 1].classList.add("hit");
+    setClare("oh");
+    say(pick(q.fake ? LINES.wrongOnFake : kind === "fake" ? LINES.fakeOnReal : LINES.wrong));
+    hurtDore(S.wrong);
+  }
+  $("#qscore").textContent = `✔ ${S.score}   ✘ ${S.wrong}/3`;
+  const n = $("#nextBtn");
+  n.textContent = S.wrong >= 3 ? "See what happened to Dr Doré…" : S.i === TOTAL - 1 ? "See my results 🏁" : "Next question →";
+  n.classList.add("on");
+  setTimeout(() => n.focus({ preventScroll: true }), 50);
+}
+function next() {
+  if (!S || !S.answered) return;
+  if (S.wrong >= 3 || S.i === TOTAL - 1) return finish();
+  S.i++; showQ();
+}
+function finish() {
+  S.done = true; clearTimeout(attackTimer); Music.stop(); $("#attack").className = "attack";
+  const won = S.wrong < 3;
+  const answered = S.log.length;
+  $("#barFill").style.width = "100%";
+  const missed = S.log.filter(l => !l.ok);
+  const reviewHtml = missed.length ? `<h3 class="fred" style="margin:6px 0 0;color:var(--purple)">Worth a second look</h3><ul class="review">` + missed.map(l =>
+    `<li><span class="tag">you said: ${esc(l.picked)}</span><b>${esc(l.q.abbr)}</b>: ${l.q.fake ? "<i>Fake! Not in the policy.</i>" : esc(l.q.correct)}</li>`).join("") + "</ul>" : "";
+  let html;
+  if (won) {
+    html = `<div class="cert">
+      <div class="fred" style="font-weight:700;color:var(--pink);letter-spacing:.12em;text-transform:uppercase;font-size:13px">Northern Ireland Hospice</div>
+      <h2>Certified Abbreviation-Aware</h2>
+      <p style="margin:6px 0 2px">Has shown sound knowledge of Clinical Policy CSP37/2026, <i>Abbreviations in Clinical Practice</i><br><small style="color:#8A5A00;font-weight:800">Policy pending review by Clinical Leads</small></p>
+      <div class="score">${S.score}/${TOTAL}</div>
+      <div class="sig">Clare White<small>Dr Clare White, Quizmaster</small></div>
+    </div>
+    <p style="font-weight:700">Dr Matt Doré survived with ${S.wrong ? S.wrong + " paper cut" + (S.wrong > 1 ? "s" : "") + " and " + formTotal + " forms to fill in" : "not a scratch on him"}.</p>`;
+    setTimeout(sndWin, 400); confetti(); doreSay("I survived! Mostly."); setClare("wink"); say(pick(LINES.win));
+    setTimeout(() => { setDore(S.wrong ? "worried" : "happy"); }, 1600);
+  } else {
+    html = `<div class="lose"><h2 class="title" style="font-size:38px;color:var(--red)">Dr Matt Doré is down! 🩹</h2>
+      <p class="sub">Buried under ${formTotal} forms and three nasty paper cuts after ${answered} question${answered > 1 ? "s" : ""}.</p>
+      <div class="score" style="color:var(--red)">${S.score}/${answered}</div></div>
+      <blockquote>“It is the responsibility of all Northern Ireland Hospice employees to adhere to this policy.”<cite>${POLREF}, Roles and Responsibilities</cite></blockquote>`;
+    setTimeout(sndLose, 900); setClare("stern"); say(pick(LINES.lose));
+  }
+  html += reviewHtml + `<div class="row"><button class="btn green" id="againBtn">${won ? "Play again ▶" : "Patch him up and try again 🩹"}</button><button class="btn ghost" id="polBtn3">Read the policy</button></div>`;
+  $("#sEnd").innerHTML = html; show("sEnd");
+  $("#againBtn").onclick = start; $("#polBtn3").onclick = openPolicy;
+  S.answered = false; S.done = true;
+}
+function confetti() {
+  const cols = ["#55214F", "#7A72B3", "#DC7282", "#F2CF6A", "#fff"];
+  for (let i = 0; i < 70; i++) {
+    const c = document.createElement("div"); c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw"; c.style.background = pick(cols);
+    c.style.animationDelay = Math.random() * .8 + "s"; c.style.animationDuration = 2 + Math.random() * 1.8 + "s";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 4800);
+  }
+}
+
+/* ================= Policy modal ================= */
+function buildAppendix() {
+  const order = ["M", "N", "H", "D", "O"];
+  $("#appendix").innerHTML = order.map(c => {
+    const seen = new Set();
+    const rows = RAW.filter(r => r.c === c).filter(r => { const k = r.a + "|" + r.m; if (seen.has(k)) return false; seen.add(k); return true; });
+    return `<h3>${CATS[c]}</h3><div class="apx">` + rows.map(r => `<div><b>${esc(r.a)}</b>${esc(r.m)}</div>`).join("") + "</div>";
+  }).join("");
+}
+function openPolicy() { $("#policyModal").classList.add("on"); $("#closePolicy").focus(); }
+function closePolicy() { $("#policyModal").classList.remove("on"); }
+
+/* ================= Wiring ================= */
+$("#startBtn").onclick = start;
+$("#policyBtn").onclick = openPolicy;
+$("#policyBtn2").onclick = openPolicy;
+$("#closePolicy").onclick = closePolicy;
+$("#policyModal").addEventListener("click", e => { if (e.target.id === "policyModal") closePolicy(); });
+$("#soundBtn").onclick = () => {
+  soundOn = !soundOn; $("#soundBtn").textContent = soundOn ? "🔊" : "🔇";
+  if (!soundOn) Music.stop(.2); else if (S && !S.done) Music.start();
+};
+$("#choices").addEventListener("click", e => { const b = e.target.closest(".choice"); if (b) answer("choice", b.dataset.v); });
+$("#fakeBtn").onclick = () => answer("fake");
+$("#nextBtn").onclick = next;
+document.addEventListener("keydown", e => {
+  if ($("#policyModal").classList.contains("on")) { if (e.key === "Escape") closePolicy(); return; }
+  if (!$("#sQ").classList.contains("on")) return;
+  if (!S.answered && ["1", "2", "3"].includes(e.key)) { const b = document.querySelectorAll(".choice")[+e.key - 1]; if (b) answer("choice", b.dataset.v); }
+  else if (!S.answered && (e.key === "f" || e.key === "F")) answer("fake");
+  else if (S.answered && e.key === "Enter") { e.preventDefault(); next(); }
+});
+buildAppendix();
+addBgForms(window.innerWidth < 600 ? 22 : 48, false);
+say(pick(LINES.intro));
+})();
+</script>
+</body>
+</html>
